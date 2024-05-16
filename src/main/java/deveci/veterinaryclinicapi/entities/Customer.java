@@ -28,8 +28,8 @@ public class Customer {
     private String phone;
 
     @NotNull
-    @Column(name = "mail")
-    private String mail;
+    @Column(name = "email")
+    private String email;
 
     @NotNull
     @Column(name = "address")
