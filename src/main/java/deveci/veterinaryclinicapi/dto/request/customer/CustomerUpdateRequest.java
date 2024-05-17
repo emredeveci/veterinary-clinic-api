@@ -24,7 +24,7 @@ public class CustomerUpdateRequest {
     private String name;
 
     @NotNull(message = "Phone cannot be empty or null.")
-    @NotEmpty(message = "Phone cannot be empty or .")
+    @NotEmpty(message = "Phone cannot be empty or null.")
     private String phone;
 
     @NotNull(message = "Email cannot be empty or null.")

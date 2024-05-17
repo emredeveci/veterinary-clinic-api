@@ -1,5 +1,8 @@
 package deveci.veterinaryclinicapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -16,7 +19,7 @@ public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "serial")
     private Long id;
 
     @NotNull
@@ -40,6 +43,8 @@ public class Doctor {
     private String address;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+//    @JsonBackReference
+    @JsonIgnore
     private List<AvailableDate> dateList;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

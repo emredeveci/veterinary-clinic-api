@@ -26,7 +26,7 @@ public class CustomerManager implements CustomerService {
 
     @Override
     public Customer get(Long id) {
-        return this.customerRepo.findById(id).orElseThrow(()-> new NotFoundException(Msg.NOT_FOUND));
+        return this.customerRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
     @Override

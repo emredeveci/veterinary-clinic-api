@@ -1,5 +1,8 @@
 package deveci.veterinaryclinicapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -16,7 +19,7 @@ public class AvailableDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "serial")
     private Long id;
 
     @NotNull
@@ -25,6 +28,8 @@ public class AvailableDate {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor_id", referencedColumnName = "id")
+//    @JsonManagedReference
+    @JsonIgnore
     private Doctor doctor;
 
 }

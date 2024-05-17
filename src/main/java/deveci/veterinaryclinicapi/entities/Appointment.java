@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "serial")
     private Long id;
 
     @NotNull
@@ -23,7 +23,7 @@ public class Appointment {
     private LocalDateTime appointmentDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="animal_id", referencedColumnName = "id")
+    @JoinColumn(name = "animal_id", referencedColumnName = "id")
     private Animal animal;
 
     @ManyToOne(fetch = FetchType.EAGER)

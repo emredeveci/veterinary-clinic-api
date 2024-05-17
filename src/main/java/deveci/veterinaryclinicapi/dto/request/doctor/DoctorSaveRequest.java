@@ -1,4 +1,4 @@
-package deveci.veterinaryclinicapi.dto.request.customer;
+package deveci.veterinaryclinicapi.dto.request.doctor;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerSaveRequest {
+public class DoctorSaveRequest {
 
     @NotNull(message = "Name cannot be empty or null.")
     @NotEmpty(message = "Name cannot be empty or null.")
@@ -30,5 +30,4 @@ public class CustomerSaveRequest {
     @NotNull(message = "City cannot be empty or null.")
     @NotEmpty(message = "City cannot be empty or null.")
     private String city;
-
 }

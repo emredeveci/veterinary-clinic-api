@@ -29,7 +29,7 @@ public class CustomerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResultData<CustomerResponse> save(@Valid @RequestBody CustomerSaveRequest customerSaveRequest){
+    public ResultData<CustomerResponse> save(@Valid @RequestBody CustomerSaveRequest customerSaveRequest) {
 
         Customer saveCustomer = this.modelMapper.forRequest().map(customerSaveRequest, Customer.class);
         this.customerService.save(saveCustomer);
@@ -65,7 +65,7 @@ public class CustomerController {
             @RequestParam(name = "pageSize", required = false, defaultValue = "2") int pageSize) {
         Page<Customer> customerPage = this.customerService.cursor(page, pageSize);
         Page<CustomerResponse> customerResponsePage = customerPage
-                .map(category -> this.modelMapper.forResponse().map(category, CustomerResponse.class));
+                .map(customer -> this.modelMapper.forResponse().map(customer, CustomerResponse.class));
 
         return ResultHelper.cursor(customerResponsePage);
     }
