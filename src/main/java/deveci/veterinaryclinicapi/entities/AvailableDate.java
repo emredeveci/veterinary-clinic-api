@@ -28,7 +28,6 @@ public class AvailableDate {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor_id", referencedColumnName = "id")
-//    @JsonManagedReference
     @JsonIgnore
     private Doctor doctor;
 

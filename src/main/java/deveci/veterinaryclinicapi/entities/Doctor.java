@@ -43,10 +43,10 @@ public class Doctor {
     private String address;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-//    @JsonBackReference
     @JsonIgnore
     private List<AvailableDate> dateList;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<Appointment> appointmentList;
 }

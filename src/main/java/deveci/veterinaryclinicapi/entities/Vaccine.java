@@ -1,5 +1,6 @@
 package deveci.veterinaryclinicapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -37,5 +38,6 @@ public class Vaccine {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "animal_id", referencedColumnName = "id")
+    @JsonIgnore
     private Animal animal;
 }

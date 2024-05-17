@@ -1,7 +1,5 @@
 package deveci.veterinaryclinicapi.dto.request.availabledate;
 
-import deveci.veterinaryclinicapi.entities.Doctor;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,5 +16,5 @@ public class AvailableDateSaveRequest {
     private LocalDate availableDate;
 
     @NotNull(message = "Doctor cannot be empty or null.")
-    private Long doctorId;
+    private Long doctor;
 }

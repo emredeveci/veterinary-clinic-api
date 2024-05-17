@@ -1,5 +1,6 @@
 package deveci.veterinaryclinicapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -40,5 +41,6 @@ public class Customer {
     private String city;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<Animal> animalList;
 }
