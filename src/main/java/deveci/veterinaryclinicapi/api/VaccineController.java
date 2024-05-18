@@ -36,7 +36,7 @@ public class VaccineController {
     public ResultData<VaccineResponse> save(@Valid @RequestBody VaccineSaveRequest vaccineSaveRequest) {
 
         Vaccine saveVaccine = this.modelMapper.forRequest().map(vaccineSaveRequest, Vaccine.class);
-        Animal animal = this.animalService.get(vaccineSaveRequest.getAnimal());
+        Animal animal = this.animalService.get(vaccineSaveRequest.getAnimal().getId());
         saveVaccine.setAnimal(animal);
         this.vaccineService.save(saveVaccine);
         return ResultHelper.created(this.modelMapper.forResponse().map(saveVaccine, VaccineResponse.class));
@@ -53,7 +53,7 @@ public class VaccineController {
     @ResponseStatus(HttpStatus.OK)
     public ResultData<VaccineResponse> update(@Valid @RequestBody VaccineUpdateRequest vaccineUpdateRequest) {
         Vaccine updateVaccine = this.modelMapper.forRequest().map(vaccineUpdateRequest, Vaccine.class);
-        Animal animal = this.animalService.get(vaccineUpdateRequest.getAnimal());
+        Animal animal = this.animalService.get(vaccineUpdateRequest.getAnimal().getId());
         updateVaccine.setAnimal(animal);
         this.vaccineService.update(updateVaccine);
         return ResultHelper.success(this.modelMapper.forResponse().map(updateVaccine, VaccineResponse.class));

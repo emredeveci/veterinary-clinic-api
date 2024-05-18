@@ -1,6 +1,9 @@
 package deveci.veterinaryclinicapi.dto.request.vaccine;
 
+import deveci.veterinaryclinicapi.entities.Animal;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,12 +21,12 @@ public class VaccineSaveRequest {
     @NotEmpty(message = "Code cannot be empty or null.")
     private String code;
 
-    @NotEmpty(message = "Protection start date cannot be empty or null.")
+    @NotNull(message = "Protection start date cannot be empty or null.")
     private LocalDate protectionStartDate;
 
-    @NotEmpty(message = "Protection end date cannot be empty or null.")
+    @NotNull(message = "Protection end date cannot be empty or null.")
     private LocalDate protectionEndDate;
 
-    @NotEmpty(message = "Animal cannot be empty or null.")
-    private Long animal;
+    @NotNull(message = "Animal ID cannot be empty or null.")
+    private Animal animal;
 }

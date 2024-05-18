@@ -3,8 +3,9 @@ package deveci.veterinaryclinicapi.business.abstracts;
 import deveci.veterinaryclinicapi.entities.Animal;
 import org.springframework.data.domain.Page;
 
-public interface AnimalService {
+import java.util.List;
 
+public interface AnimalService {
     Animal save(Animal animal);
 
     Animal get(Long id);
@@ -14,4 +15,9 @@ public interface AnimalService {
     Animal update(Animal animal);
 
     boolean delete(Long id);
+
+    List<Animal> getAnimalByCustomerName(String name);
+
+    List<Animal> getAnimalByName(String name);
+    List<Animal> getAnimalByCustomerId(Long id);
 }

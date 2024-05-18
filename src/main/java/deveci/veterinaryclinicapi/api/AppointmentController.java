@@ -41,10 +41,10 @@ public class AppointmentController {
 
         Appointment saveAppointment = this.modelMapper.forRequest().map(appointmentSaveRequest, Appointment.class);
 
-        Animal animal = this.animalService.get(appointmentSaveRequest.getAnimal());
+        Animal animal = this.animalService.get(appointmentSaveRequest.getAnimal().getId());
         saveAppointment.setAnimal(animal);
 
-        Doctor doctor = this.doctorService.get(appointmentSaveRequest.getDoctor());
+        Doctor doctor = this.doctorService.get(appointmentSaveRequest.getDoctor().getId());
         saveAppointment.setDoctor(doctor);
 
         this.appointmentService.save(saveAppointment);
@@ -63,10 +63,10 @@ public class AppointmentController {
     public ResultData<AppointmentResponse> update(@Valid @RequestBody AppointmentUpdateRequest appointmentUpdateRequest) {
         Appointment updateAppointment = this.modelMapper.forRequest().map(appointmentUpdateRequest, Appointment.class);
 
-        Animal animal = this.animalService.get(appointmentUpdateRequest.getAnimal());
+        Animal animal = this.animalService.get(appointmentUpdateRequest.getAnimal().getId());
         updateAppointment.setAnimal(animal);
 
-        Doctor doctor = this.doctorService.get(appointmentUpdateRequest.getDoctor());
+        Doctor doctor = this.doctorService.get(appointmentUpdateRequest.getDoctor().getId());
         updateAppointment.setDoctor(doctor);
 
         this.appointmentService.update(updateAppointment);

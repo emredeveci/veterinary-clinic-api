@@ -39,8 +39,4 @@ public class CustomerUpdateRequest {
     @NotEmpty(message = "City cannot be empty or null.")
     private String city;
 
-//    @NotNull(message = "Pet information cannot be empty or null.")
-//    @NotEmpty(message = "Pet information cannot be empty or null.")
-//    private List<Animal> animalList;
-
 }

@@ -36,7 +36,7 @@ public class AvailableDateController {
     public ResultData<AvailableDateResponse> save(@Valid @RequestBody AvailableDateSaveRequest availableDateSaveRequest) {
 
         AvailableDate saveAvailableDate = this.modelMapper.forRequest().map(availableDateSaveRequest, AvailableDate.class);
-        Doctor doctor = this.doctorService.get(availableDateSaveRequest.getDoctor());
+        Doctor doctor = this.doctorService.get(availableDateSaveRequest.getDoctor().getId());
         saveAvailableDate.setDoctor(doctor);
         this.availableDateService.save(saveAvailableDate);
         return ResultHelper.created(this.modelMapper.forResponse().map(saveAvailableDate, AvailableDateResponse.class));
@@ -53,7 +53,7 @@ public class AvailableDateController {
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AvailableDateResponse> update(@Valid @RequestBody AvailableDateUpdateRequest availableDateUpdateRequest) {
         AvailableDate updateAvailableDate = this.modelMapper.forRequest().map(availableDateUpdateRequest, AvailableDate.class);
-        Doctor doctor = this.doctorService.get(availableDateUpdateRequest.getDoctor());
+        Doctor doctor = this.doctorService.get(availableDateUpdateRequest.getDoctor().getId());
         updateAvailableDate.setDoctor(doctor);
         this.availableDateService.update(updateAvailableDate);
         return ResultHelper.success(this.modelMapper.forResponse().map(updateAvailableDate, AvailableDateResponse.class));

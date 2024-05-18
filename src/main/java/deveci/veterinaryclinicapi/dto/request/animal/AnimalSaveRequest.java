@@ -1,5 +1,6 @@
 package deveci.veterinaryclinicapi.dto.request.animal;
 
+import deveci.veterinaryclinicapi.entities.Customer;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,25 +18,25 @@ public class AnimalSaveRequest {
     @NotEmpty(message = "Name cannot be empty or null.")
     private String name;
 
-    @NotNull(message = "Name cannot be empty or null.")
-    @NotEmpty(message = "Name cannot be empty or null.")
+    @NotNull(message = "Species cannot be empty or null.")
+    @NotEmpty(message = "Species cannot be empty or null.")
     private String species;
 
-    @NotNull(message = "Name cannot be empty or null.")
-    @NotEmpty(message = "Name cannot be empty or null.")
+    @NotNull(message = "Breed cannot be empty or null.")
+    @NotEmpty(message = "Breed cannot be empty or null.")
     private String breed;
 
-    @NotNull(message = "Name cannot be empty or null.")
-    @NotEmpty(message = "Name cannot be empty or null.")
+    @NotNull(message = "Gender cannot be empty or null.")
+    @NotEmpty(message = "Gender cannot be empty or null.")
     private String gender;
 
-    @NotNull(message = "Name cannot be empty or null.")
-    @NotEmpty(message = "Name cannot be empty or null.")
+    @NotNull(message = "Color cannot be empty or null.")
+    @NotEmpty(message = "Color cannot be empty or null.")
     private String color;
 
-    @NotNull(message = "Name cannot be empty or null.")
+    @NotNull(message = "Date of birth cannot be empty or null.")
     private LocalDate dateOfBirth;
 
-    @NotNull(message = "Name cannot be empty or null.")
-    private Long customer;
+    @NotNull(message = "Customer ID cannot be empty or null.")
+    private Customer customer;
 }

@@ -18,6 +18,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/v1/animals")
 public class AnimalController {
@@ -32,32 +35,22 @@ public class AnimalController {
         this.customerService = customerService;
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResultData<AnimalResponse> save(@Valid @RequestBody AnimalSaveRequest animalSaveRequest) {
-
-        Animal saveAnimal = this.modelMapper.forRequest().map(animalSaveRequest, Animal.class);
-        Customer customer = this.customerService.get(animalSaveRequest.getCustomer());
-        saveAnimal.setCustomer(customer);
-        this.animalService.save(saveAnimal);
-        return ResultHelper.created(this.modelMapper.forResponse().map(saveAnimal, AnimalResponse.class));
-    }
-
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AnimalResponse> get(@PathVariable("id") Long id) {
-        Animal animal = this.animalService.get(id);
-        return ResultHelper.success(this.modelMapper.forResponse().map(animal, AnimalResponse.class));
+        return ResultHelper.success(this.modelMapper.forResponse().map(this.animalService.get(id), AnimalResponse.class));
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResultData<AnimalResponse> save(@Valid @RequestBody AnimalSaveRequest animalSaveRequest) {
+        return ResultHelper.created(this.modelMapper.forResponse().map(this.animalService.save(this.modelMapper.forRequest().map(animalSaveRequest, Animal.class)), AnimalResponse.class));
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AnimalResponse> update(@Valid @RequestBody AnimalUpdateRequest animalUpdateRequest) {
-        Animal updateAnimal = this.modelMapper.forRequest().map(animalUpdateRequest, Animal.class);
-        Customer customer = this.customerService.get(animalUpdateRequest.getCustomer());
-        updateAnimal.setCustomer(customer);
-        this.animalService.update(updateAnimal);
-        return ResultHelper.success(this.modelMapper.forResponse().map(updateAnimal, AnimalResponse.class));
+        return ResultHelper.success(this.modelMapper.forResponse().map(this.animalService.update(this.modelMapper.forRequest().map(animalUpdateRequest, Animal.class)), AnimalResponse.class));
     }
 
     @DeleteMapping("/{id}")
@@ -77,5 +70,26 @@ public class AnimalController {
                 .map(animal -> this.modelMapper.forResponse().map(animal, AnimalResponse.class));
 
         return ResultHelper.cursor(animalResponsePage);
+    }
+
+    //end point for searching by customer name
+    @GetMapping("/by-customer-name")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<List<AnimalResponse>> getAnimalByCustomerName(@RequestParam String name) {
+        return ResultHelper.success(animalService.getAnimalByCustomerName(name).stream().map(animal -> this.modelMapper.forResponse().map(animal, AnimalResponse.class)).collect(Collectors.toList()));
+    }
+
+    //end point for searching by animal name
+    @GetMapping("/by-name")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<List<AnimalResponse>> getAnimalByName(@RequestParam String name) {
+        return ResultHelper.success(animalService.getAnimalByName(name).stream().map(animal -> modelMapper.forResponse().map(animal, AnimalResponse.class)).collect(Collectors.toList()));
+    }
+
+    //end point for searching all animals that belong to a customer
+    @GetMapping("/by-customer-id/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AnimalResponse> getCustomerId(@PathVariable("id") long id) {
+        return animalService.getAnimalByCustomerId(id).stream().map(animal -> modelMapper.forResponse().map(animal, AnimalResponse.class)).collect(Collectors.toList());
     }
 }
