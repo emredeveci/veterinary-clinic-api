@@ -67,16 +67,14 @@ public class CustomerController {
         return ResultHelper.cursor(customerResponsePage);
     }
 
-    @GetMapping()
+    @GetMapping("/by-name")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<CustomerResponse>> getByCustomerName(@RequestParam String name) {
-        // Retrieve customers by name and map the results to response objects.
         return ResultHelper.success(customerService.getByCustomerName(name).stream().map(customer -> modelMapper.forResponse().map(customer, CustomerResponse.class)).collect(Collectors.toList()));
     }
 
     @GetMapping("/customer-animals/{id}")
     public ResultData<List<AnimalResponse>> getByAnimalList(@PathVariable("id") long id) {
-        // Retrieve customers by associated animal ID and map the results to response objects.
         return ResultHelper.success(customerService.getByAnimalList(id).stream().map(customer -> modelMapper.forResponse().map(customer, AnimalResponse.class)).collect(Collectors.toList()));
     }
 }

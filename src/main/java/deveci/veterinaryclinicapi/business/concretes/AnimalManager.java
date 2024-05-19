@@ -95,8 +95,9 @@ public class AnimalManager implements AnimalService {
 
     @Override
     public List<Animal> getAnimalByCustomerId(Long id) {
+        this.customerRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_CUSTOMER_ID));
         if (animalRepo.getAnimalByCustomerId(id).isEmpty()) {
-            throw new NotFoundException(Msg.NO_SUCH_CUSTOMER);
+            throw new NotFoundException(Msg.NO_DATA_CRITERIA);
         }
         return animalRepo.getAnimalByCustomerId(id);
     }

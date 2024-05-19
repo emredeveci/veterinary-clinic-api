@@ -38,46 +38,25 @@ public class AppointmentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<AppointmentResponse> save(@Valid @RequestBody AppointmentSaveRequest appointmentSaveRequest) {
-
-        Appointment saveAppointment = this.modelMapper.forRequest().map(appointmentSaveRequest, Appointment.class);
-
-        Animal animal = this.animalService.get(appointmentSaveRequest.getAnimal().getId());
-        saveAppointment.setAnimal(animal);
-
-        Doctor doctor = this.doctorService.get(appointmentSaveRequest.getDoctor().getId());
-        saveAppointment.setDoctor(doctor);
-
-        this.appointmentService.save(saveAppointment);
-        return ResultHelper.created(this.modelMapper.forResponse().map(saveAppointment, AppointmentResponse.class));
+        return ResultHelper.created(this.modelMapper.forResponse().map(this.appointmentService.save(this.modelMapper.forRequest().map(appointmentSaveRequest, Appointment.class)), AppointmentResponse.class));
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AppointmentResponse> get(@PathVariable("id") Long id) {
-        Appointment appointment = this.appointmentService.get(id);
-        return ResultHelper.success(this.modelMapper.forResponse().map(appointment, AppointmentResponse.class));
+        return ResultHelper.success(this.modelMapper.forResponse().map(this.appointmentService.get(id), AppointmentResponse.class));
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AppointmentResponse> update(@Valid @RequestBody AppointmentUpdateRequest appointmentUpdateRequest) {
-        Appointment updateAppointment = this.modelMapper.forRequest().map(appointmentUpdateRequest, Appointment.class);
-
-        Animal animal = this.animalService.get(appointmentUpdateRequest.getAnimal().getId());
-        updateAppointment.setAnimal(animal);
-
-        Doctor doctor = this.doctorService.get(appointmentUpdateRequest.getDoctor().getId());
-        updateAppointment.setDoctor(doctor);
-
-        this.appointmentService.update(updateAppointment);
-        return ResultHelper.success(this.modelMapper.forResponse().map(updateAppointment, AppointmentResponse.class));
+        return ResultHelper.success(this.modelMapper.forResponse().map(this.appointmentService.update(this.modelMapper.forRequest().map(appointmentUpdateRequest, Appointment.class)), AppointmentResponse.class));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") Long id) {
-        this.appointmentService.delete(id);
-        return ResultHelper.ok();
+        return ResultHelper.success(this.appointmentService.delete(id));
     }
 
     @GetMapping()

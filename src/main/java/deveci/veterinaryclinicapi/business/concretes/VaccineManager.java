@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VaccineManager implements VaccineService {
@@ -32,21 +33,37 @@ public class VaccineManager implements VaccineService {
         if (animalRepo.findById(vaccine.getAnimal().getId()).isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_ANIMAL_ID);
         }
-        if (vaccineRepo.existsVaccineByCodeAndNameAndAnimalId(vaccine.getCode(), vaccine.getName(), vaccine.getAnimal().getId())) {
-            if (vaccineRepo.findByEndDateAfterOrderByEndDate(vaccine.getProtectionStartDate()).isEmpty()) {
-                if (ChronoUnit.DAYS.between(vaccine.getProtectionStartDate(), vaccine.getProtectionEndDate()) < 0) {
-                    throw new DateException(Msg.END_DATE_ISSUE);
+
+        boolean existsVaccine = vaccineRepo.existsVaccineByCodeAndNameAndAnimalId(
+                vaccine.getCode(), vaccine.getName(), vaccine.getAnimal().getId());
+
+        if (existsVaccine) {
+            List<Vaccine> existingVaccines = vaccineRepo.findByCodeAndNameAndAnimalId(
+                    vaccine.getCode(), vaccine.getName(), vaccine.getAnimal().getId());
+            LocalDate newProtectionStartDate = vaccine.getProtectionStartDate();
+            LocalDate newProtectionEndDate = vaccine.getProtectionEndDate();
+
+            for (Vaccine existingVaccine : existingVaccines) {
+                LocalDate existingProtectionEndDate = existingVaccine.getProtectionEndDate();
+
+                // Check if the new protection start date is before the existing protection end date
+                if (newProtectionStartDate.isBefore(existingProtectionEndDate)) {
+                    throw new DateException(Msg.ACTIVE_PROTECTION);
                 }
-                return vaccineRepo.save(vaccine);
             }
-            throw new DateException(Msg.ACTIVE_PROTECTION);
+
+            //Check if the protection end date is after the protection start date
+            if (!vaccine.getProtectionEndDate().isAfter(vaccine.getProtectionStartDate())) {
+                throw new DateException(Msg.END_DATE_ISSUE);
+            }
         }
-        return this.vaccineRepo.save(vaccine);
+
+        return vaccineRepo.save(vaccine);
     }
 
     @Override
     public Vaccine get(Long id) {
-        return this.vaccineRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+        return this.vaccineRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_VACCINE_ID));
     }
 
     @Override
@@ -62,7 +79,7 @@ public class VaccineManager implements VaccineService {
             throw new NotFoundException(Msg.NO_SUCH_ANIMAL_ID);
         }
         if (vaccineRepo.existsVaccineByCodeAndNameAndAnimalId(vaccine.getCode(), vaccine.getName(), vaccine.getAnimal().getId())) {
-            if (vaccineRepo.findByEndDateAfterOrderByEndDate(vaccine.getProtectionStartDate()).isEmpty()) {
+            if (vaccineRepo.findByProtectionEndDateAfterOrderByProtectionEndDate(vaccine.getProtectionStartDate()).isEmpty()) {
                 if (ChronoUnit.DAYS.between(vaccine.getProtectionStartDate(), vaccine.getProtectionEndDate()) < 0) {
                     throw new DateException(Msg.END_DATE_ISSUE);
                 }
@@ -89,9 +106,9 @@ public class VaccineManager implements VaccineService {
 
     @Override
     public List<Vaccine> getFilterByStartAndEndDate(LocalDate startDate, LocalDate endDate) {
-        if (vaccineRepo.findByEndDateBetween(startDate, endDate).isEmpty()) {
+        if (vaccineRepo.findByProtectionEndDateBetween(startDate, endDate).isEmpty()) {
             throw new NotFoundException(Msg.NO_DATA_CRITERIA);
         }
-        return vaccineRepo.findByEndDateBetween(startDate, endDate);
+        return vaccineRepo.findByProtectionEndDateBetween(startDate, endDate);
     }
 }

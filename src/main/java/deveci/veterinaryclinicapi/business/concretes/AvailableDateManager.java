@@ -1,6 +1,7 @@
 package deveci.veterinaryclinicapi.business.concretes;
 
 import deveci.veterinaryclinicapi.business.abstracts.AvailableDateService;
+import deveci.veterinaryclinicapi.core.exception.DateException;
 import deveci.veterinaryclinicapi.core.exception.ExistingRecordsException;
 import deveci.veterinaryclinicapi.core.exception.NotFoundException;
 import deveci.veterinaryclinicapi.core.utilities.Msg;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 public class AvailableDateManager implements AvailableDateService {
@@ -32,7 +35,7 @@ public class AvailableDateManager implements AvailableDateService {
         if (doctorRepo.findById(availableDate.getDoctor().getId()).isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_DOCTOR_ID);
         }
-        if (availableDateRepo.existsByDateAndDoctorId(availableDate.getAvailableDate(), availableDate.getDoctor().getId())) {
+        if (availableDateRepo.existsByAvailableDateAndDoctorId(availableDate.getAvailableDate(), availableDate.getDoctor().getId())) {
             throw new ExistingRecordsException(Msg.AVAILABLE_DATE_EXISTS);
         }
         return this.availableDateRepo.save(availableDate);
@@ -51,21 +54,45 @@ public class AvailableDateManager implements AvailableDateService {
 
     @Override
     public AvailableDate update(AvailableDate availableDate) {
-        if (appointmentRepo.existsByAvailableDateId(availableDate.getId())) {
-            throw new ExistingRecordsException(Msg.EXISTING_APPOINTMENT);
+        AvailableDate existingAvailableDate = availableDateRepo.findById(availableDate.getId())
+                .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_AVAILABLE_DATE_ID));
+
+        // Check if the available date is being changed
+        if (!existingAvailableDate.getAvailableDate().equals(availableDate.getAvailableDate())) {
+            if (appointmentRepo.existsByAppointmentDateAndDoctorId(existingAvailableDate.getAvailableDate(), existingAvailableDate.getDoctor().getId())) {
+                throw new DateException(Msg.EXISTING_APPOINTMENT);
+            }
         }
-        if (doctorRepo.findById(availableDate.getDoctor().getId()).isEmpty()) {
-            throw new NotFoundException(Msg.NO_SUCH_DOCTOR_ID);
+
+        // Check if the doctor is being changed
+        if (!existingAvailableDate.getDoctor().getId().equals(availableDate.getDoctor().getId())) {
+            // Check if the existing doctor has an appointment on the available date
+            if (appointmentRepo.existsByAppointmentDateAndDoctorId(existingAvailableDate.getAvailableDate(), existingAvailableDate.getDoctor().getId())) {
+                throw new DateException(Msg.EXISTING_APPOINTMENT);
+            }
+
+            // Check if the new doctor exists
+            if (doctorRepo.findById(availableDate.getDoctor().getId()).isEmpty()) {
+                throw new NotFoundException(Msg.NO_SUCH_DOCTOR_ID);
+            }
         }
-        if (availableDateRepo.existsByDateAndDoctorId(availableDate.getAvailableDate(), availableDate.getDoctor().getId())) {
+
+        // Check if the available date already exists for the new doctor
+        if (availableDateRepo.existsByAvailableDateAndDoctorId(availableDate.getAvailableDate(), availableDate.getDoctor().getId())) {
             throw new ExistingRecordsException(Msg.AVAILABLE_DATE_EXISTS);
         }
+
         return this.availableDateRepo.save(availableDate);
     }
 
     @Override
     public boolean delete(Long id) {
-        if (appointmentRepo.existsByAvailableDateId(id)) {
+
+        AvailableDate existingAvailableDate = availableDateRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_AVAILABLE_DATE_ID));
+
+        // Check if there are any appointments made on the date associated with the available date
+        if (appointmentRepo.existsByAppointmentDateAndDoctorId(existingAvailableDate.getAvailableDate(), existingAvailableDate.getDoctor().getId())) {
             throw new ExistingRecordsException(Msg.EXISTING_APPOINTMENT);
         }
         this.availableDateRepo.delete(this.get(id));

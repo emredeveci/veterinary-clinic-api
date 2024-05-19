@@ -8,6 +8,5 @@ import java.time.LocalDate;
 
 @Repository
 public interface AvailableDateRepo extends JpaRepository<AvailableDate, Long> {
-    boolean existsByDateAndDoctorId(LocalDate date, Long id);
-
+    boolean existsByAvailableDateAndDoctorId(LocalDate date, Long id);
 }
