@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AppointmentRepo extends JpaRepository<Appointment, Long> {
+    boolean existsByAvailableDateId(long id);
 }

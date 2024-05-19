@@ -19,5 +19,6 @@ public interface AnimalService {
     List<Animal> getAnimalByCustomerName(String name);
 
     List<Animal> getAnimalByName(String name);
+
     List<Animal> getAnimalByCustomerId(Long id);
 }

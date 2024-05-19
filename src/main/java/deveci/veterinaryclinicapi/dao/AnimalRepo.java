@@ -10,6 +10,8 @@ import java.util.List;
 public interface AnimalRepo extends JpaRepository<Animal, Long> {
 
     List<Animal> getAnimalByCustomerName(String name);
+
     List<Animal> getAnimalByName(String name);
-    List<Animal> getAnimalByCustomerId(Long id);
+
+    List<Animal> getAnimalByCustomerId(Long customerId);
 }

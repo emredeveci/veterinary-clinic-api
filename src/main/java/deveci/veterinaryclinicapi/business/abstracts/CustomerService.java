@@ -1,7 +1,10 @@
 package deveci.veterinaryclinicapi.business.abstracts;
 
+import deveci.veterinaryclinicapi.entities.Animal;
 import deveci.veterinaryclinicapi.entities.Customer;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface CustomerService {
     Customer save(Customer customer);
@@ -13,4 +16,9 @@ public interface CustomerService {
     Customer update(Customer product);
 
     boolean delete(Long id);
+
+    List<Customer> getByCustomerName(String name);
+
+
+    List<Animal> getByAnimalList(Long id);
 }

@@ -84,7 +84,7 @@ public class AppointmentController {
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<AppointmentResponse>> cursor(
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "2") int pageSize) {
+            @RequestParam(name = "pageSize", required = false, defaultValue = "15") int pageSize) {
         Page<Appointment> availableAppointmentPage = this.appointmentService.cursor(page, pageSize);
         Page<AppointmentResponse> availableAppointmentResponsePage = availableAppointmentPage
                 .map(appointment -> this.modelMapper.forResponse().map(appointment, AppointmentResponse.class));

@@ -20,7 +20,7 @@ public class AppointmentUpdateRequest {
     @NotNull(message = "Date ID cannot be null.")
     private Long id;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime appointmentDate;
 
     @NotNull(message = "Animal ID cannot be empty or null.")

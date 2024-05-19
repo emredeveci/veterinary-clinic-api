@@ -35,4 +35,8 @@ public class ResultHelper {
     public static Result ok() {
         return new Result(true, Msg.OK, "200");
     }
+
+    public static <T> ResultData<T> deleted(T data) {
+        return new ResultData<>(true, Msg.DELETED, "200", data);
+    }
 }

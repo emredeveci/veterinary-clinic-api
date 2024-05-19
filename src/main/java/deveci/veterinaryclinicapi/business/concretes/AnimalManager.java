@@ -53,7 +53,7 @@ public class AnimalManager implements AnimalService {
 
     @Override
     public Animal get(Long id) {
-        return this.animalRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+        return this.animalRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_ANIMAL_ID));
     }
 
     @Override
@@ -64,7 +64,7 @@ public class AnimalManager implements AnimalService {
 
     @Override
     public Animal update(Animal animal) {
-        animalRepo.findById(animal.getId()).orElseThrow(()->new NotFoundException(Msg.NO_SUCH_ANIMAL_ID));
+        animalRepo.findById(animal.getId()).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_ANIMAL_ID));
         if (customerRepo.findById(animal.getCustomer().getId()).isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_CUSTOMER);
         }
@@ -79,7 +79,7 @@ public class AnimalManager implements AnimalService {
 
     @Override
     public List<Animal> getAnimalByCustomerName(String name) {
-        if(animalRepo.getAnimalByCustomerName(name).isEmpty()){
+        if (animalRepo.getAnimalByCustomerName(name).isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_CUSTOMER);
         }
         return animalRepo.getAnimalByCustomerName(name);
@@ -87,7 +87,7 @@ public class AnimalManager implements AnimalService {
 
     @Override
     public List<Animal> getAnimalByName(String name) {
-        if(animalRepo.getAnimalByName(name).isEmpty()){
+        if (animalRepo.getAnimalByName(name).isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_ANIMAL);
         }
         return animalRepo.getAnimalByName(name);
@@ -95,7 +95,7 @@ public class AnimalManager implements AnimalService {
 
     @Override
     public List<Animal> getAnimalByCustomerId(Long id) {
-        if(animalRepo.getAnimalByCustomerId(id).isEmpty()){
+        if (animalRepo.getAnimalByCustomerId(id).isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_CUSTOMER);
         }
         return animalRepo.getAnimalByCustomerId(id);

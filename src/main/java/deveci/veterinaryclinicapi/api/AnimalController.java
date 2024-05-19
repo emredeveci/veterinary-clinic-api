@@ -27,12 +27,10 @@ public class AnimalController {
 
     private final AnimalService animalService;
     private final ModelMapperService modelMapper;
-    private final CustomerService customerService;
 
-    public AnimalController(AnimalService animalService, ModelMapperService modelMapper, CustomerService customerService) {
+    public AnimalController(AnimalService animalService, ModelMapperService modelMapper) {
         this.animalService = animalService;
         this.modelMapper = modelMapper;
-        this.customerService = customerService;
     }
 
     @GetMapping("/{id}")
@@ -56,15 +54,14 @@ public class AnimalController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") Long id) {
-        this.animalService.delete(id);
-        return ResultHelper.ok();
+        return ResultHelper.deleted(animalService.delete(id));
     }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<AnimalResponse>> cursor(
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "2") int pageSize) {
+            @RequestParam(name = "pageSize", required = false, defaultValue = "15") int pageSize) {
         Page<Animal> animalPage = this.animalService.cursor(page, pageSize);
         Page<AnimalResponse> animalResponsePage = animalPage
                 .map(animal -> this.modelMapper.forResponse().map(animal, AnimalResponse.class));

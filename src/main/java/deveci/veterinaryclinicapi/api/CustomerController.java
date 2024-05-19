@@ -8,12 +8,16 @@ import deveci.veterinaryclinicapi.core.utilities.ResultHelper;
 import deveci.veterinaryclinicapi.dto.request.customer.CustomerSaveRequest;
 import deveci.veterinaryclinicapi.dto.request.customer.CustomerUpdateRequest;
 import deveci.veterinaryclinicapi.dto.response.CursorResponse;
+import deveci.veterinaryclinicapi.dto.response.animal.AnimalResponse;
 import deveci.veterinaryclinicapi.dto.response.customer.CustomerResponse;
 import deveci.veterinaryclinicapi.entities.Customer;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/customers")
@@ -30,43 +34,49 @@ public class CustomerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<CustomerResponse> save(@Valid @RequestBody CustomerSaveRequest customerSaveRequest) {
-
-        Customer saveCustomer = this.modelMapper.forRequest().map(customerSaveRequest, Customer.class);
-        this.customerService.save(saveCustomer);
-        return ResultHelper.created(this.modelMapper.forResponse().map(saveCustomer, CustomerResponse.class));
+        return ResultHelper.created(this.modelMapper.forResponse().map(this.customerService.save(this.modelMapper.forRequest().map(customerSaveRequest, Customer.class)), CustomerResponse.class));
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CustomerResponse> get(@PathVariable("id") Long id) {
-        Customer customer = this.customerService.get(id);
-        return ResultHelper.success(this.modelMapper.forResponse().map(customer, CustomerResponse.class));
+        return ResultHelper.success(this.modelMapper.forResponse().map(this.customerService.get(id), CustomerResponse.class));
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CustomerResponse> update(@Valid @RequestBody CustomerUpdateRequest customerUpdateRequest) {
-        Customer updateCustomer = this.modelMapper.forRequest().map(customerUpdateRequest, Customer.class);
-        this.customerService.update(updateCustomer);
-        return ResultHelper.success(this.modelMapper.forResponse().map(updateCustomer, CustomerResponse.class));
+        return ResultHelper.success(this.modelMapper.forResponse().map(this.customerService.update(this.modelMapper.forRequest().map(customerUpdateRequest, Customer.class)), CustomerResponse.class));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") Long id) {
-        this.customerService.delete(id);
-        return ResultHelper.ok();
+        return ResultHelper.success(this.customerService.delete(id));
     }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<CustomerResponse>> cursor(
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "2") int pageSize) {
+            @RequestParam(name = "pageSize", required = false, defaultValue = "15") int pageSize) {
         Page<Customer> customerPage = this.customerService.cursor(page, pageSize);
         Page<CustomerResponse> customerResponsePage = customerPage
                 .map(customer -> this.modelMapper.forResponse().map(customer, CustomerResponse.class));
 
         return ResultHelper.cursor(customerResponsePage);
+    }
+
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<List<CustomerResponse>> getByCustomerName(@RequestParam String name) {
+        // Retrieve customers by name and map the results to response objects.
+        return ResultHelper.success(customerService.getByCustomerName(name).stream().map(customer -> modelMapper.forResponse().map(customer, CustomerResponse.class)).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/customer-animals/{id}")
+    public ResultData<List<AnimalResponse>> getByAnimalList(@PathVariable("id") long id) {
+        // Retrieve customers by associated animal ID and map the results to response objects.
+        return ResultHelper.success(customerService.getByAnimalList(id).stream().map(customer -> modelMapper.forResponse().map(customer, AnimalResponse.class)).collect(Collectors.toList()));
     }
 }
