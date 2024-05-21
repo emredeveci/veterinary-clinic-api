@@ -41,12 +41,12 @@ public class AppointmentManager implements AppointmentService {
 
         Doctor doctor = this.doctorRepo.findById(appointment.getDoctor().getId()).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_DOCTOR_ID));
 
-        if(doctor.getDateList().stream()
+        if(!doctor.getDateList().stream()
                 .anyMatch(availableDate -> availableDate.getAvailableDate().equals(appointment.getAppointmentDate().toLocalDate()))){
             throw new DateException(Msg.OUT_OF_OFFICE);
         }
 
-        if(!appointmentRepo.existsByDoctorIdAndAppointmentDate(
+        if(appointmentRepo.existsByDoctorIdAndAppointmentDate(
                 appointment.getDoctor().getId(), appointment.getAppointmentDate())){
             throw new DateException(Msg.APPOINTMENT_ALREADY_TAKEN);
         }
@@ -68,7 +68,7 @@ public class AppointmentManager implements AppointmentService {
     @Override
     public Appointment update(Appointment appointment) {
         this.get(appointment.getId());
-        return this.appointmentRepo.save(appointment);
+        return this.save(appointment);
     }
 
     @Override
@@ -78,12 +78,23 @@ public class AppointmentManager implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> filterByDateTimeAndDoctor(LocalDateTime startDate, LocalDateTime endDate, Doctor doctor) {
-        return null;
+    public List<Appointment> filterByDateTimeAndDoctor(LocalDateTime startDate, LocalDateTime endDate, Long doctorId) {
+        Doctor existingDoctor = doctorRepo.findById(doctorId)
+                .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_DOCTOR_ID));
+
+        if (!appointmentRepo.existsByAppointmentDateBetweenAndDoctor(startDate, endDate, existingDoctor)) {
+            throw new NotFoundException(Msg.NO_APPOINTMENT_RECORDS);
+        }
+        return appointmentRepo.findByAppointmentDateBetweenAndDoctor(startDate, endDate, existingDoctor);
     }
 
     @Override
-    public List<Appointment> filterByDateTimeAndAnimal(LocalDateTime startDate, LocalDateTime endDate, Animal animal) {
-        return null;
+    public List<Appointment> filterByDateTimeAndAnimal(LocalDateTime startDate, LocalDateTime endDate, Long animalId) {
+        Animal existingAnimal = animalRepo.findById(animalId)
+                .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_ANIMAL_ID));
+        if (!appointmentRepo.existsByAppointmentDateBetweenAndAnimal(startDate, endDate, existingAnimal)) {
+            throw new NotFoundException(Msg.NO_APPOINTMENT_RECORDS);
+        }
+        return appointmentRepo.findByAppointmentDateBetweenAndAnimal(startDate, endDate, existingAnimal);
     }
 }

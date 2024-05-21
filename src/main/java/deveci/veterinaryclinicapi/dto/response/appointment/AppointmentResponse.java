@@ -1,5 +1,7 @@
 package deveci.veterinaryclinicapi.dto.response.appointment;
 
+import deveci.veterinaryclinicapi.dto.response.animal.SimplifiedAnimalResponse;
+import deveci.veterinaryclinicapi.dto.response.doctor.SimplifiedDoctorResponse;
 import deveci.veterinaryclinicapi.entities.Animal;
 import deveci.veterinaryclinicapi.entities.Doctor;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,6 @@ import java.time.LocalDateTime;
 public class AppointmentResponse {
     private Long id;
     private LocalDateTime appointmentDate;
-    private Animal animal;
-    private Doctor doctor;
+    private SimplifiedAnimalResponse animal;
+    private SimplifiedDoctorResponse doctor;
 }

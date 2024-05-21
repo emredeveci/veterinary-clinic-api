@@ -1,7 +1,5 @@
 package deveci.veterinaryclinicapi.dto.response.availabledate;
 
-import deveci.veterinaryclinicapi.dto.response.doctor.SimplifiedDoctorResponse;
-import deveci.veterinaryclinicapi.entities.Doctor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +9,6 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AvailableDateResponse {
-
-    private Long id;
+public class SimplifiedAvailableDateResponse {
     private LocalDate availableDate;
-    private SimplifiedDoctorResponse doctor;
 }

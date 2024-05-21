@@ -1,6 +1,8 @@
 package deveci.veterinaryclinicapi.dto.response.doctor;
 
 
+import deveci.veterinaryclinicapi.dto.response.appointment.SimplifiedAppointmentResponse;
+import deveci.veterinaryclinicapi.dto.response.availabledate.SimplifiedAvailableDateResponse;
 import deveci.veterinaryclinicapi.entities.Appointment;
 import deveci.veterinaryclinicapi.entities.AvailableDate;
 import lombok.AllArgsConstructor;
@@ -20,7 +22,7 @@ public class DoctorResponse {
     private String email;
     private String address;
     private String city;
-    private List<AvailableDate> dateList;
-    private List<Appointment> appointmentList;
+    private List<SimplifiedAvailableDateResponse> dateList;
+    private List<SimplifiedAppointmentResponse> appointmentList;
 
 }

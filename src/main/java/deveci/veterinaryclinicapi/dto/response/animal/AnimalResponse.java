@@ -1,5 +1,8 @@
 package deveci.veterinaryclinicapi.dto.response.animal;
 
+import deveci.veterinaryclinicapi.dto.response.appointment.SimplifiedAppointmentResponse;
+import deveci.veterinaryclinicapi.dto.response.customer.SimplifiedCustomerResponse;
+import deveci.veterinaryclinicapi.dto.response.vaccine.SimplifiedVaccineResponse;
 import deveci.veterinaryclinicapi.entities.Appointment;
 import deveci.veterinaryclinicapi.entities.Customer;
 import deveci.veterinaryclinicapi.entities.Vaccine;
@@ -22,7 +25,7 @@ public class AnimalResponse {
     private String gender;
     private String color;
     private LocalDate dateOfBirth;
-    private Customer customer;
-    private List<Vaccine> vaccineList;
-    private List<Appointment> appointmentList;
+    private SimplifiedCustomerResponse customer;
+    private List<SimplifiedVaccineResponse> vaccineList;
+    private List<SimplifiedAppointmentResponse> appointmentList;
 }

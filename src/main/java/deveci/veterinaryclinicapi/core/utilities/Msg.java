@@ -25,5 +25,6 @@ public class Msg {
     public static final String NO_DATA_CRITERIA = "No results matching your criteria were found in the database.";
     public static final String AVAILABLE_DATE_EXISTS = "There is already a record of this date for this doctor.";
     public static final String EXISTING_APPOINTMENT = "An appointment exists on this date. Update or delete operations are not allowed.";
-    public static final String APPOINTMENT_ALREADY_TAKEN = "An appointment exists on this date. Update or delete operations are not allowed.";
+    public static final String APPOINTMENT_ALREADY_TAKEN = "An appointment exists on this date and time.";
+    public static final String NO_APPOINTMENT_RECORDS = "There are no appointments matching your criteria.";
 }

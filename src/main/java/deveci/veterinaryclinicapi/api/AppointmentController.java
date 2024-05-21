@@ -16,8 +16,13 @@ import deveci.veterinaryclinicapi.entities.Appointment;
 import deveci.veterinaryclinicapi.entities.Doctor;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/appointments")
@@ -70,4 +75,19 @@ public class AppointmentController {
 
         return ResultHelper.cursor(availableAppointmentResponsePage);
     }
+
+    @GetMapping("/date-doctor-availability")
+    public ResultData<List<AppointmentResponse>> filterByDateTimeAndDoctor(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                                                               @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                                                                               @RequestParam("doctorId") Long doctorId) {
+        return ResultHelper.success(appointmentService.filterByDateTimeAndDoctor(startDate, endDate, doctorId).stream().map(appointment -> modelMapper.forResponse().map(appointment, AppointmentResponse.class)).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/appointment-dates-animal")
+    public ResultData<List<AppointmentResponse>> filterByDateTimeAndAnimal(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                                                               @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                                                                               @RequestParam("animalId") Long animalId) {
+        return ResultHelper.success(appointmentService.filterByDateTimeAndAnimal(startDate, endDate, animalId).stream().map(appointment -> modelMapper.forResponse().map(appointment, AppointmentResponse.class)).collect(Collectors.toList()));
+    }
+
 }
