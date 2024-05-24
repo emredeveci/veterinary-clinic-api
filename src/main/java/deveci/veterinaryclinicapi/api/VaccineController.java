@@ -1,6 +1,5 @@
 package deveci.veterinaryclinicapi.api;
 
-import deveci.veterinaryclinicapi.business.abstracts.AnimalService;
 import deveci.veterinaryclinicapi.business.abstracts.VaccineService;
 import deveci.veterinaryclinicapi.core.config.modelMapper.ModelMapperService;
 import deveci.veterinaryclinicapi.core.result.Result;
@@ -10,7 +9,6 @@ import deveci.veterinaryclinicapi.dto.request.vaccine.VaccineSaveRequest;
 import deveci.veterinaryclinicapi.dto.request.vaccine.VaccineUpdateRequest;
 import deveci.veterinaryclinicapi.dto.response.CursorResponse;
 import deveci.veterinaryclinicapi.dto.response.vaccine.VaccineResponse;
-import deveci.veterinaryclinicapi.entities.Animal;
 import deveci.veterinaryclinicapi.entities.Vaccine;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -34,30 +32,35 @@ public class VaccineController {
         this.modelMapper = modelMapper;
     }
 
+    // Creates a new vaccine record
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<VaccineResponse> save(@Valid @RequestBody VaccineSaveRequest vaccineSaveRequest) {
         return ResultHelper.created(this.modelMapper.forResponse().map(this.vaccineService.save(this.modelMapper.forRequest().map(vaccineSaveRequest, Vaccine.class)), VaccineResponse.class));
     }
 
+    // Retrieves a vaccine by its ID
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<VaccineResponse> get(@PathVariable("id") Long id) {
         return ResultHelper.success(this.modelMapper.forResponse().map(this.vaccineService.get(id), VaccineResponse.class));
     }
 
+    // Updates an existing vaccine record
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<VaccineResponse> update(@Valid @RequestBody VaccineUpdateRequest vaccineUpdateRequest) {
         return ResultHelper.success(this.modelMapper.forResponse().map(this.vaccineService.update(this.modelMapper.forRequest().map(vaccineUpdateRequest, Vaccine.class)), VaccineResponse.class));
     }
 
+    // Deletes a vaccine by its ID
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") Long id) {
         return ResultHelper.deleted(vaccineService.delete(id));
     }
 
+    // Retrieves a paginated list of vaccines
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<VaccineResponse>> cursor(
@@ -70,16 +73,17 @@ public class VaccineController {
         return ResultHelper.cursor(availableVaccineResponsePage);
     }
 
+    // Retrieves a list of vaccines for a specific animal by the animal's ID
     @GetMapping("/animal/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<VaccineResponse>> getAnimalVaccineList(@PathVariable("id") Long id) {
         return ResultHelper.success(vaccineService.getAnimalVaccineList(id).stream().map(vaccine -> modelMapper.forResponse().map(vaccine, VaccineResponse.class)).collect(Collectors.toList()));
     }
 
+    // Retrieves a list of vaccines for a specific animal by the animal's ID
     @GetMapping("/protection-check")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<VaccineResponse>> getFilterByStartAndEndDate(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        // Retrieve a list of vaccines filtered by end date and map the result to response objects.
         return ResultHelper.success(vaccineService.getFilterByStartAndEndDate(startDate, endDate).stream().map(vaccine -> modelMapper.forResponse().map(vaccine, VaccineResponse.class)).collect(Collectors.toList()));
     }
 }

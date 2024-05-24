@@ -50,11 +50,11 @@ public class Animal {
     @JsonIgnore
     private Customer customer;
 
-    @OneToMany(mappedBy = "animal", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Vaccine> vaccineList;
 
-    @OneToMany(mappedBy = "animal")
+    @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Appointment> appointmentList;
 }

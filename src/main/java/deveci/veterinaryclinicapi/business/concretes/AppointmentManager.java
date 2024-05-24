@@ -6,7 +6,6 @@ import deveci.veterinaryclinicapi.core.exception.NotFoundException;
 import deveci.veterinaryclinicapi.core.utilities.Msg;
 import deveci.veterinaryclinicapi.dao.AnimalRepo;
 import deveci.veterinaryclinicapi.dao.AppointmentRepo;
-import deveci.veterinaryclinicapi.dao.AvailableDateRepo;
 import deveci.veterinaryclinicapi.dao.DoctorRepo;
 import deveci.veterinaryclinicapi.entities.Animal;
 import deveci.veterinaryclinicapi.entities.Appointment;
@@ -24,13 +23,11 @@ public class AppointmentManager implements AppointmentService {
 
     private final AppointmentRepo appointmentRepo;
     private final DoctorRepo doctorRepo;
-    private final AvailableDateRepo availableDateRepo;
     private final AnimalRepo animalRepo;
 
-    public AppointmentManager(AppointmentRepo appointmentRepo, DoctorRepo doctorRepo, AvailableDateRepo availableDateRepo, AnimalRepo animalRepo) {
+    public AppointmentManager(AppointmentRepo appointmentRepo, DoctorRepo doctorRepo, AnimalRepo animalRepo) {
         this.appointmentRepo = appointmentRepo;
         this.doctorRepo = doctorRepo;
-        this.availableDateRepo = availableDateRepo;
         this.animalRepo = animalRepo;
     }
 
@@ -41,14 +38,21 @@ public class AppointmentManager implements AppointmentService {
 
         Doctor doctor = this.doctorRepo.findById(appointment.getDoctor().getId()).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_DOCTOR_ID));
 
-        if(!doctor.getDateList().stream()
-                .anyMatch(availableDate -> availableDate.getAvailableDate().equals(appointment.getAppointmentDate().toLocalDate()))){
+        // Checks if the doctor works on the requested date
+        if (!doctor.getDateList().stream()
+                .anyMatch(availableDate -> availableDate.getAvailableDate().equals(appointment.getAppointmentDate().toLocalDate()))) {
             throw new DateException(Msg.OUT_OF_OFFICE);
         }
 
-        if(appointmentRepo.existsByDoctorIdAndAppointmentDate(
-                appointment.getDoctor().getId(), appointment.getAppointmentDate())){
+        // Checks if there is already an appointment at this date and time
+        if (appointmentRepo.existsByDoctorIdAndAppointmentDate(
+                appointment.getDoctor().getId(), appointment.getAppointmentDate())) {
             throw new DateException(Msg.APPOINTMENT_ALREADY_TAKEN);
+        }
+
+        // Checks if the requested hour fits the appointment hour rule (appointments must start at the beginning of each hour)
+        if (!(appointment.getAppointmentDate().getMinute() == 0)) {
+            throw new DateException(Msg.HOURLY_APPOINTMENTS);
         }
 
         return appointmentRepo.save(appointment);

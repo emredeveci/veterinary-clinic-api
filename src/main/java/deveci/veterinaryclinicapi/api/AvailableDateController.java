@@ -29,30 +29,35 @@ public class AvailableDateController {
         this.modelMapper = modelMapper;
     }
 
+    // Creates a new available date record
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<AvailableDateResponse> save(@Valid @RequestBody AvailableDateSaveRequest availableDateSaveRequest) {
         return ResultHelper.created(this.modelMapper.forResponse().map(this.availableDateService.save(this.modelMapper.forRequest().map(availableDateSaveRequest, AvailableDate.class)), AvailableDateResponse.class));
     }
 
+    // Retrieves an available date by its ID
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AvailableDateResponse> get(@PathVariable("id") Long id) {
         return ResultHelper.success(this.modelMapper.forResponse().map(this.availableDateService.get(id), AvailableDateResponse.class));
     }
 
+    // Updates an existing available date record
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AvailableDateResponse> update(@Valid @RequestBody AvailableDateUpdateRequest availableDateUpdateRequest) {
         return ResultHelper.success(this.modelMapper.forResponse().map(this.availableDateService.update(this.modelMapper.forRequest().map(availableDateUpdateRequest, AvailableDate.class)), AvailableDateResponse.class));
     }
 
+    // Deletes an available date by its ID
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") Long id) {
         return ResultHelper.success(this.availableDateService.delete(id));
     }
 
+    // Retrieves a paginated list of available dates
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<AvailableDateResponse>> cursor(

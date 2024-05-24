@@ -73,7 +73,7 @@ public class CustomerController {
         return ResultHelper.success(customerService.getByCustomerName(name).stream().map(customer -> modelMapper.forResponse().map(customer, CustomerResponse.class)).collect(Collectors.toList()));
     }
 
-    @GetMapping("/customer-animals/{id}")
+    @GetMapping("/{id}/animal-list")
     public ResultData<List<AnimalResponse>> getByAnimalList(@PathVariable("id") long id) {
         return ResultHelper.success(customerService.getByAnimalList(id).stream().map(customer -> modelMapper.forResponse().map(customer, AnimalResponse.class)).collect(Collectors.toList()));
     }

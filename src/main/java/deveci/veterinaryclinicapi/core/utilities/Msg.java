@@ -3,8 +3,7 @@ package deveci.veterinaryclinicapi.core.utilities;
 public class Msg {
     public static final String CREATED = "Data has been successfully stored.";
     public static final String OK = "The operation was successful.";
-    public static final String VALIDATION_ERROR = "Invalid entry";
-    public static final String NOT_FOUND = "Data not found.";
+    public static final String VALIDATION_ERROR = "Invalid entry.";
     public static final String NO_SUCH_CUSTOMER = "Customer not found in the database.";
     public static final String NO_SUCH_CUSTOMER_ID = "Customer ID not found in the database.";
     public static final String NO_SUCH_ANIMAL = "Animal not found in the database.";
@@ -27,4 +26,5 @@ public class Msg {
     public static final String EXISTING_APPOINTMENT = "An appointment exists on this date. Update or delete operations are not allowed.";
     public static final String APPOINTMENT_ALREADY_TAKEN = "An appointment exists on this date and time.";
     public static final String NO_APPOINTMENT_RECORDS = "There are no appointments matching your criteria.";
+    public static final String HOURLY_APPOINTMENTS = "Appointments must start at the beginning of each hour.";
 }

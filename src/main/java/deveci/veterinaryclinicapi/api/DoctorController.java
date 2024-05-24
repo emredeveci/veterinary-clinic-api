@@ -28,30 +28,36 @@ public class DoctorController {
         this.modelMapper = modelMapper;
     }
 
+    // Creates a new doctor record
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<DoctorResponse> save(@Valid @RequestBody DoctorSaveRequest doctorSaveRequest) {
         return ResultHelper.created(this.modelMapper.forResponse().map(this.doctorService.save(this.modelMapper.forRequest().map(doctorSaveRequest, Doctor.class)), DoctorResponse.class));
     }
 
+
+    // Retrieves a doctor by its ID
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<DoctorResponse> get(@PathVariable("id") Long id) {
         return ResultHelper.success(this.modelMapper.forResponse().map(this.doctorService.get(id), DoctorResponse.class));
     }
 
+    // Updates an existing doctor record
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<DoctorResponse> update(@Valid @RequestBody DoctorUpdateRequest doctorUpdateRequest) {
         return ResultHelper.success(this.modelMapper.forResponse().map(this.doctorService.update(this.modelMapper.forRequest().map(doctorUpdateRequest, Doctor.class)), DoctorResponse.class));
     }
 
+    // Deletes a doctor by its ID
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") Long id) {
         return ResultHelper.deleted(doctorService.delete(id));
     }
 
+    // Retrieves a paginated list of doctors
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<DoctorResponse>> cursor(

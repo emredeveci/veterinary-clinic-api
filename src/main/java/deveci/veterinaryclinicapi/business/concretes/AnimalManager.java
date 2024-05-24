@@ -1,7 +1,7 @@
 package deveci.veterinaryclinicapi.business.concretes;
 
 import deveci.veterinaryclinicapi.business.abstracts.AnimalService;
-import deveci.veterinaryclinicapi.core.exception.ConflictException;
+import deveci.veterinaryclinicapi.core.exception.ExistingRecordsException;
 import deveci.veterinaryclinicapi.core.exception.NotFoundException;
 import deveci.veterinaryclinicapi.core.utilities.Msg;
 import deveci.veterinaryclinicapi.dao.AnimalRepo;
@@ -32,19 +32,19 @@ public class AnimalManager implements AnimalService {
 
         Optional<Customer> optionalCustomer = customerRepo.findById(animal.getCustomer().getId());
 
-        // Check if the customer exists
+        // Checks if the customer exists
         if (optionalCustomer.isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_CUSTOMER);
         }
 
         Customer customer = optionalCustomer.get();
 
-        // Check if the customer already has an animal with the same name
+        // Checks if the customer already has an animal with the same name
         boolean animalExists = customer.getAnimalList().stream()
                 .anyMatch(existingAnimal -> existingAnimal.getName().equals(animal.getName()));
 
         if (animalExists) {
-            throw new ConflictException(Msg.DUPLICATE_ANIMAL);
+            throw new ExistingRecordsException(Msg.DUPLICATE_ANIMAL);
         }
 
         // Save the new animal
@@ -64,10 +64,16 @@ public class AnimalManager implements AnimalService {
 
     @Override
     public Animal update(Animal animal) {
+
+        // Checks if the animal exists
         animalRepo.findById(animal.getId()).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_ANIMAL_ID));
+
+        // Checks if the customer exists
         if (customerRepo.findById(animal.getCustomer().getId()).isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_CUSTOMER);
         }
+
+        // update the animal
         return this.animalRepo.save(animal);
     }
 

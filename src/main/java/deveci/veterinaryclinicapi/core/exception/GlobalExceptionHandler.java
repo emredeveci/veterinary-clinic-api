@@ -22,6 +22,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ResultHelper.notFoundError(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ExistingRecordsException.class)
+    public ResponseEntity<Result> handleExistingRecordsException(NotFoundException e) {
+        return new ResponseEntity<>(ResultHelper.notFoundError(e.getMessage()), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(DateException.class)
+    public ResponseEntity<Result> handleDateException(NotFoundException e) {
+        return new ResponseEntity<>(ResultHelper.notFoundError(e.getMessage()), HttpStatus.PRECONDITION_FAILED);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResultData<List<String>>> handleValidationErrors(MethodArgumentNotValidException e) {
         List<String> validationErrorList = e.getBindingResult().getFieldErrors().stream()

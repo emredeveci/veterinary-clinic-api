@@ -25,7 +25,7 @@ public class DoctorManager implements DoctorService {
     @Override
     public Doctor save(Doctor doctor) {
 
-        // Check if the new email or phone number is already taken by another doctor
+        // Checks if the new email or phone number is already taken by another doctor
         Optional<Doctor> doctorByEmail = this.doctorRepo.findByEmail(doctor.getEmail());
         Optional<Doctor> doctorByPhone = this.doctorRepo.findByPhone(doctor.getPhone());
 
@@ -55,18 +55,19 @@ public class DoctorManager implements DoctorService {
     @Override
     public Doctor update(Doctor doctor) {
 
-        // Check if the doctor to be updated exists
+        // Checks if the doctor to be updated exists
         Doctor existingDoctor = this.doctorRepo.findById(doctor.getId())
                 .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_DOCTOR_ID));
 
-        // Check if the new email or phone number is already taken by another doctor
         Optional<Doctor> doctorByEmail = this.doctorRepo.findByEmail(doctor.getEmail());
         Optional<Doctor> doctorByPhone = this.doctorRepo.findByPhone(doctor.getPhone());
 
+        // Checks if the new email is already taken by another doctor
         if (doctorByEmail.isPresent() && !doctorByEmail.get().getId().equals(doctor.getId())) {
             throw new ExistingRecordsException(Msg.DR_EMAIL_EXISTS);
         }
 
+        // Checks if the new phone number is already taken by another doctor
         if (doctorByPhone.isPresent() && !doctorByPhone.get().getId().equals(doctor.getId())) {
             throw new ExistingRecordsException(Msg.DR_PHONE_EXISTS);
         }

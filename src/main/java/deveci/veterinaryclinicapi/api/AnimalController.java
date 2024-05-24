@@ -33,30 +33,36 @@ public class AnimalController {
         this.modelMapper = modelMapper;
     }
 
+
+    // Retrieves an animal by its ID
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AnimalResponse> get(@PathVariable("id") Long id) {
         return ResultHelper.success(this.modelMapper.forResponse().map(this.animalService.get(id), AnimalResponse.class));
     }
 
+    // Creates a new animal record
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<AnimalResponse> save(@Valid @RequestBody AnimalSaveRequest animalSaveRequest) {
         return ResultHelper.created(this.modelMapper.forResponse().map(this.animalService.save(this.modelMapper.forRequest().map(animalSaveRequest, Animal.class)), AnimalResponse.class));
     }
 
+    // Updates an existing animal record
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AnimalResponse> update(@Valid @RequestBody AnimalUpdateRequest animalUpdateRequest) {
         return ResultHelper.success(this.modelMapper.forResponse().map(this.animalService.update(this.modelMapper.forRequest().map(animalUpdateRequest, Animal.class)), AnimalResponse.class));
     }
 
+    // Deletes an animal by its ID
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") Long id) {
         return ResultHelper.deleted(animalService.delete(id));
     }
 
+    // Retrieves a paginated list of animals
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<AnimalResponse>> cursor(
@@ -69,21 +75,21 @@ public class AnimalController {
         return ResultHelper.cursor(animalResponsePage);
     }
 
-    //end point for searching by customer name
+    // Retrieves animals by the customer name
     @GetMapping("/by-customer-name")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<AnimalResponse>> getAnimalByCustomerName(@RequestParam String name) {
         return ResultHelper.success(animalService.getAnimalByCustomerName(name).stream().map(animal -> this.modelMapper.forResponse().map(animal, AnimalResponse.class)).collect(Collectors.toList()));
     }
 
-    //end point for searching by animal name
+    // Retrieves animals by their name
     @GetMapping("/by-name")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<AnimalResponse>> getAnimalByName(@RequestParam String name) {
         return ResultHelper.success(animalService.getAnimalByName(name).stream().map(animal -> modelMapper.forResponse().map(animal, AnimalResponse.class)).collect(Collectors.toList()));
     }
 
-    //end point for searching all animals that belong to a customer
+    // Retrieves all animals that belong to a specific customer
     @GetMapping("/by-customer-id/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<AnimalResponse> getCustomerId(@PathVariable("id") long id) {

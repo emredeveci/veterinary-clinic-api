@@ -57,27 +57,28 @@ public class AvailableDateManager implements AvailableDateService {
         AvailableDate existingAvailableDate = availableDateRepo.findById(availableDate.getId())
                 .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_AVAILABLE_DATE_ID));
 
-        // Check if the available date is being changed
+        // Checks if the available date is being changed
         if (!existingAvailableDate.getAvailableDate().equals(availableDate.getAvailableDate())) {
+            // Checks if there is already an appointment on that day
             if (appointmentRepo.existsByAppointmentDateAndDoctorId(existingAvailableDate.getAvailableDate(), existingAvailableDate.getDoctor().getId())) {
                 throw new DateException(Msg.EXISTING_APPOINTMENT);
             }
         }
 
-        // Check if the doctor is being changed
+        // Checks if the doctor is being changed
         if (!existingAvailableDate.getDoctor().getId().equals(availableDate.getDoctor().getId())) {
-            // Check if the existing doctor has an appointment on the available date
+            // Checks if the existing doctor has an appointment on the available date
             if (appointmentRepo.existsByAppointmentDateAndDoctorId(existingAvailableDate.getAvailableDate(), existingAvailableDate.getDoctor().getId())) {
                 throw new DateException(Msg.EXISTING_APPOINTMENT);
             }
 
-            // Check if the new doctor exists
+            // Checks if the new doctor exists
             if (doctorRepo.findById(availableDate.getDoctor().getId()).isEmpty()) {
                 throw new NotFoundException(Msg.NO_SUCH_DOCTOR_ID);
             }
         }
 
-        // Check if the available date already exists for the new doctor
+        // Checks if the available date already exists for the new doctor
         if (availableDateRepo.existsByAvailableDateAndDoctorId(availableDate.getAvailableDate(), availableDate.getDoctor().getId())) {
             throw new ExistingRecordsException(Msg.AVAILABLE_DATE_EXISTS);
         }
@@ -91,7 +92,7 @@ public class AvailableDateManager implements AvailableDateService {
         AvailableDate existingAvailableDate = availableDateRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_AVAILABLE_DATE_ID));
 
-        // Check if there are any appointments made on the date associated with the available date
+        // Checks if there are any appointments made on the date associated with the available date
         if (appointmentRepo.existsByAppointmentDateAndDoctorId(existingAvailableDate.getAvailableDate(), existingAvailableDate.getDoctor().getId())) {
             throw new ExistingRecordsException(Msg.EXISTING_APPOINTMENT);
         }

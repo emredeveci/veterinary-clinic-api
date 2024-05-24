@@ -40,7 +40,7 @@ public class Customer {
     @Column(name = "city")
     private String city;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Animal> animalList;
 }

@@ -34,6 +34,7 @@ public class VaccineManager implements VaccineService {
             throw new NotFoundException(Msg.NO_SUCH_ANIMAL_ID);
         }
 
+        // Checks if this animal already has this vaccine
         boolean existsVaccine = vaccineRepo.existsVaccineByCodeAndNameAndAnimalId(
                 vaccine.getCode(), vaccine.getName(), vaccine.getAnimal().getId());
 
@@ -46,13 +47,13 @@ public class VaccineManager implements VaccineService {
             for (Vaccine existingVaccine : existingVaccines) {
                 LocalDate existingProtectionEndDate = existingVaccine.getProtectionEndDate();
 
-                // Check if the new protection start date is before the existing protection end date
+                // Checks if the new protection start date is before the existing vaccine's protection end date
                 if (newProtectionStartDate.isBefore(existingProtectionEndDate)) {
                     throw new DateException(Msg.ACTIVE_PROTECTION);
                 }
             }
 
-            //Check if the protection end date is after the protection start date
+            //Checks if the protection end date is after the protection start date
             if (!vaccine.getProtectionEndDate().isAfter(vaccine.getProtectionStartDate())) {
                 throw new DateException(Msg.END_DATE_ISSUE);
             }
@@ -78,8 +79,12 @@ public class VaccineManager implements VaccineService {
         if (animalRepo.findById(vaccine.getAnimal().getId()).isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_ANIMAL_ID);
         }
+
+        // Checks if the vaccine already exists for the given animal
         if (vaccineRepo.existsVaccineByCodeAndNameAndAnimalId(vaccine.getCode(), vaccine.getName(), vaccine.getAnimal().getId())) {
+            // Checks if there are any vaccines with a protection end date after the current vaccine's protection start date
             if (vaccineRepo.findByProtectionEndDateAfterOrderByProtectionEndDate(vaccine.getProtectionStartDate()).isEmpty()) {
+                // Checks if the protection start date is after the protection end date
                 if (ChronoUnit.DAYS.between(vaccine.getProtectionStartDate(), vaccine.getProtectionEndDate()) < 0) {
                     throw new DateException(Msg.END_DATE_ISSUE);
                 }

@@ -26,7 +26,7 @@ public class CustomerManager implements CustomerService {
 
     @Override
     public Customer save(Customer customer) {
-        // Check if the new email or phone number is already taken by another customer
+        // Checks if the new email or phone number is already taken by another customer
         Optional<Customer> customerByEmail = this.customerRepo.findByEmail(customer.getEmail());
         Optional<Customer> customerByPhone = this.customerRepo.findByPhone(customer.getPhone());
 
@@ -56,18 +56,19 @@ public class CustomerManager implements CustomerService {
     @Override
     public Customer update(Customer customer) {
 
-        // Check if the customer to be updated exists
+        // Checks if the customer to be updated exists
         Customer existingCustomer = this.customerRepo.findById(customer.getId())
                 .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_CUSTOMER_ID));
 
-        // Check if the new email or phone number is already taken by another customer
         Optional<Customer> customerByEmail = this.customerRepo.findByEmail(customer.getEmail());
         Optional<Customer> customerByPhone = this.customerRepo.findByPhone(customer.getPhone());
 
+        // Checks if the new email is already taken by another customer
         if (customerByEmail.isPresent() && !customerByEmail.get().getId().equals(customer.getId())) {
             throw new ExistingRecordsException(Msg.CUSTOMER_EMAIL_EXISTS);
         }
 
+        // Checks if the new phone number is already taken by another customer
         if (customerByPhone.isPresent() && !customerByPhone.get().getId().equals(customer.getId())) {
             throw new ExistingRecordsException(Msg.CUSTOMER_PHONE_EXISTS);
         }
