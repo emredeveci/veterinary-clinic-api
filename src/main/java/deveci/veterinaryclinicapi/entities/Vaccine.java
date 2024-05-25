@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+// Evaluation #6
 @Entity
 @Table(name = "vaccine")
 @Getter
@@ -36,7 +37,7 @@ public class Vaccine {
     @Column(name = "protection_end_date")
     private LocalDate protectionEndDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER) // Evaluation 9
     @JoinColumn(name = "animal_id", referencedColumnName = "id")
     @JsonIgnore
     private Animal animal;

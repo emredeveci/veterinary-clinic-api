@@ -30,6 +30,7 @@ public class AvailableDateManager implements AvailableDateService {
         this.appointmentRepo = appointmentRepo;
     }
 
+    // Evaluation 16 - Create an available date entry for a doctor
     @Override
     public AvailableDate save(AvailableDate availableDate) {
         if (doctorRepo.findById(availableDate.getDoctor().getId()).isEmpty()) {
@@ -43,6 +44,7 @@ public class AvailableDateManager implements AvailableDateService {
 
     @Override
     public AvailableDate get(Long id) {
+        // Evaluation 25 - Check if the available date exists. If not, throw an error.
         return this.availableDateRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_AVAILABLE_DATE_ID));
     }
 
@@ -54,6 +56,7 @@ public class AvailableDateManager implements AvailableDateService {
 
     @Override
     public AvailableDate update(AvailableDate availableDate) {
+        // Evaluation 25 - Check if the available date exists. If not, throw an error.
         AvailableDate existingAvailableDate = availableDateRepo.findById(availableDate.getId())
                 .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_AVAILABLE_DATE_ID));
 
@@ -89,6 +92,7 @@ public class AvailableDateManager implements AvailableDateService {
     @Override
     public boolean delete(Long id) {
 
+        // Evaluation 25 - Check if the available date exists. If not, throw an error.
         AvailableDate existingAvailableDate = availableDateRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_AVAILABLE_DATE_ID));
 

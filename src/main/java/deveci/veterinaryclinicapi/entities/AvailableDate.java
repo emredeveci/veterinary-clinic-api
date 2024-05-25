@@ -1,14 +1,13 @@
 package deveci.veterinaryclinicapi.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
 
+// Evaluation #6
 @Entity
 @Table(name = "available_date")
 @Getter
@@ -26,7 +25,7 @@ public class AvailableDate {
     @Column(name = "available_date")
     private LocalDate availableDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER) // Evaluation 9
     @JoinColumn(name = "doctor_id", referencedColumnName = "id")
     @JsonIgnore
     private Doctor doctor;

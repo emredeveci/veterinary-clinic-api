@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+// Evaluation #6
 @Entity
 @Table(name = "appointment")
 @Getter
@@ -22,11 +23,11 @@ public class Appointment {
     @Column(name = "appointment_date")
     private LocalDateTime appointmentDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER) // Evaluation 9
     @JoinColumn(name = "animal_id", referencedColumnName = "id")
     private Animal animal;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER) // Evaluation 9
     @JoinColumn(name = "doctor_id", referencedColumnName = "id")
     private Doctor doctor;
 

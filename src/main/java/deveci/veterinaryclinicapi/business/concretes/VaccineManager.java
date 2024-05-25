@@ -28,16 +28,17 @@ public class VaccineManager implements VaccineService {
         this.animalRepo = animalRepo;
     }
 
+    // Evaluation 21 - Make a vaccine entry with a certain business logic
     @Override
     public Vaccine save(Vaccine vaccine) {
         if (animalRepo.findById(vaccine.getAnimal().getId()).isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_ANIMAL_ID);
         }
 
-        // Checks if this animal already has this vaccine
         boolean existsVaccine = vaccineRepo.existsVaccineByCodeAndNameAndAnimalId(
                 vaccine.getCode(), vaccine.getName(), vaccine.getAnimal().getId());
 
+        // Evaluation 22 - Checks if this animal already has this vaccine
         if (existsVaccine) {
             List<Vaccine> existingVaccines = vaccineRepo.findByCodeAndNameAndAnimalId(
                     vaccine.getCode(), vaccine.getName(), vaccine.getAnimal().getId());
@@ -64,6 +65,7 @@ public class VaccineManager implements VaccineService {
 
     @Override
     public Vaccine get(Long id) {
+        // Evaluation 25 - Check if the vaccine exists. If not, throw an error.
         return this.vaccineRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_VACCINE_ID));
     }
 
@@ -75,6 +77,7 @@ public class VaccineManager implements VaccineService {
 
     @Override
     public Vaccine update(Vaccine vaccine) {
+        // Evaluation 25 - Check if the vaccine exists. If not, throw an error.
         this.get(vaccine.getId());
         if (animalRepo.findById(vaccine.getAnimal().getId()).isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_ANIMAL_ID);
@@ -97,10 +100,12 @@ public class VaccineManager implements VaccineService {
 
     @Override
     public boolean delete(Long id) {
+        // Evaluation 25 - Check if the vaccine exists. If not, throw an error.
         this.vaccineRepo.delete(this.get(id));
         return true;
     }
 
+    // Evaluation  24 - Filter all vaccines of an animal
     @Override
     public List<Vaccine> getAnimalVaccineList(Long id) {
         if (vaccineRepo.findByAnimalId(id).isEmpty()) {
@@ -109,6 +114,7 @@ public class VaccineManager implements VaccineService {
         return vaccineRepo.findByAnimalId(id);
     }
 
+    // Evaluation 23 - Filter vaccines with a protection end date that are between the requested dates
     @Override
     public List<Vaccine> getFilterByStartAndEndDate(LocalDate startDate, LocalDate endDate) {
         if (vaccineRepo.findByProtectionEndDateBetween(startDate, endDate).isEmpty()) {

@@ -24,6 +24,7 @@ public class CustomerManager implements CustomerService {
         this.customerRepo = customerRepo;
     }
 
+    // Evaluation 10 - Create a pet owner entry
     @Override
     public Customer save(Customer customer) {
         // Checks if the new email or phone number is already taken by another customer
@@ -44,6 +45,7 @@ public class CustomerManager implements CustomerService {
 
     @Override
     public Customer get(Long id) {
+        // Evaluation 25 - Check if the customer exists. If not, throw an error.
         return this.customerRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_CUSTOMER_ID));
     }
 
@@ -56,7 +58,7 @@ public class CustomerManager implements CustomerService {
     @Override
     public Customer update(Customer customer) {
 
-        // Checks if the customer to be updated exists
+        // Evaluation 25 - Check if the customer exists. If not, throw an error.
         Customer existingCustomer = this.customerRepo.findById(customer.getId())
                 .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_CUSTOMER_ID));
 
@@ -79,10 +81,12 @@ public class CustomerManager implements CustomerService {
 
     @Override
     public boolean delete(Long id) {
+        // Evaluation 25 - Check if the customer exists. If not, throw an error.
         this.customerRepo.delete(this.get(id));
         return true;
     }
 
+    // Evaluation 11 - Filter animals by owner/customer name
     @Override
     public List<Customer> getByCustomerName(String name) {
         if (customerRepo.findByName(name).isEmpty()) {
@@ -91,6 +95,7 @@ public class CustomerManager implements CustomerService {
         return customerRepo.findByName(name);
     }
 
+    // Evaluation 14 - Retrieve the animal(s) of a customer by using their ID
     @Override
     public List<Animal> getByAnimalList(Long id) {
         if (customerRepo.findById(id).isEmpty()) {

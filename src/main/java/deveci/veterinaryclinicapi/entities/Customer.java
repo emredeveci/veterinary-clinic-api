@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.util.List;
 
+// Evaluation #6
 @Entity
 @Table(name = "customer")
 @Getter
@@ -40,7 +41,7 @@ public class Customer {
     @Column(name = "city")
     private String city;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) // Evaluation 9
     @JsonIgnore
     private List<Animal> animalList;
 }

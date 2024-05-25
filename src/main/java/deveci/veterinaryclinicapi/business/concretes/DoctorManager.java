@@ -22,6 +22,7 @@ public class DoctorManager implements DoctorService {
         this.doctorRepo = doctorRepo;
     }
 
+    // Evaluation 15 - Create a doctor entry
     @Override
     public Doctor save(Doctor doctor) {
 
@@ -43,6 +44,7 @@ public class DoctorManager implements DoctorService {
 
     @Override
     public Doctor get(Long id) {
+        // Evaluation 25 - Check if the doctor exists. If not, throw an error.
         return this.doctorRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_DOCTOR_ID));
     }
 
@@ -55,7 +57,7 @@ public class DoctorManager implements DoctorService {
     @Override
     public Doctor update(Doctor doctor) {
 
-        // Checks if the doctor to be updated exists
+        // Evaluation 25 - Check if the doctor exists. If not, throw an error.
         Doctor existingDoctor = this.doctorRepo.findById(doctor.getId())
                 .orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_DOCTOR_ID));
 
@@ -77,6 +79,7 @@ public class DoctorManager implements DoctorService {
 
     @Override
     public boolean delete(Long id) {
+        // Evaluation 25 - Check if the doctor exists. If not, throw an error.
         this.doctorRepo.delete(this.get(id));
         return true;
     }

@@ -8,6 +8,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
+// Evaluation #6
 @Entity
 @Table(name = "animal")
 @Getter
@@ -45,16 +46,16 @@ public class Animal {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER) // Evaluation 9
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     @JsonIgnore
     private Customer customer;
 
-    @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) // Evaluation 9
     @JsonIgnore
     private List<Vaccine> vaccineList;
 
-    @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) // Evaluation 9
     @JsonIgnore
     private List<Appointment> appointmentList;
 }

@@ -31,6 +31,7 @@ public class AppointmentManager implements AppointmentService {
         this.animalRepo = animalRepo;
     }
 
+    // Evaluation 17 - Create an appointment entry
     @Override
     public Appointment save(Appointment appointment) {
 
@@ -38,13 +39,13 @@ public class AppointmentManager implements AppointmentService {
 
         Doctor doctor = this.doctorRepo.findById(appointment.getDoctor().getId()).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_DOCTOR_ID));
 
-        // Checks if the doctor works on the requested date
+        // Evaluation 18 - Checks if the doctor works on the requested date
         if (!doctor.getDateList().stream()
                 .anyMatch(availableDate -> availableDate.getAvailableDate().equals(appointment.getAppointmentDate().toLocalDate()))) {
             throw new DateException(Msg.OUT_OF_OFFICE);
         }
 
-        // Checks if there is already an appointment at this date and time
+        // Evaluation 18 - Checks if there is already an appointment at this date and time
         if (appointmentRepo.existsByDoctorIdAndAppointmentDate(
                 appointment.getDoctor().getId(), appointment.getAppointmentDate())) {
             throw new DateException(Msg.APPOINTMENT_ALREADY_TAKEN);
@@ -60,6 +61,7 @@ public class AppointmentManager implements AppointmentService {
 
     @Override
     public Appointment get(Long id) {
+        // Evaluation 25 - Check if the appointment exists. If not, throw an error.
         return this.appointmentRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_APPOINTMENT_ID));
     }
 
@@ -71,16 +73,19 @@ public class AppointmentManager implements AppointmentService {
 
     @Override
     public Appointment update(Appointment appointment) {
+        // Evaluation 25 - Check if the appointment exists. If not, throw an error.
         this.get(appointment.getId());
         return this.save(appointment);
     }
 
     @Override
     public boolean delete(Long id) {
+        // Evaluation 25 - Check if the appointment exists. If not, throw an error.
         this.appointmentRepo.delete(this.get(id));
         return true;
     }
 
+    // Evaluation 20 - Filter appointments by date and doctor
     @Override
     public List<Appointment> filterByDateTimeAndDoctor(LocalDateTime startDate, LocalDateTime endDate, Long doctorId) {
         Doctor existingDoctor = doctorRepo.findById(doctorId)
@@ -92,6 +97,7 @@ public class AppointmentManager implements AppointmentService {
         return appointmentRepo.findByAppointmentDateBetweenAndDoctor(startDate, endDate, existingDoctor);
     }
 
+    // Evaluation 19 - Filter appointments by date and animal
     @Override
     public List<Appointment> filterByDateTimeAndAnimal(LocalDateTime startDate, LocalDateTime endDate, Long animalId) {
         Animal existingAnimal = animalRepo.findById(animalId)

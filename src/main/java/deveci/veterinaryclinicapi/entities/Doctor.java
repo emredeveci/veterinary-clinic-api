@@ -1,14 +1,13 @@
 package deveci.veterinaryclinicapi.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
 
+// Evaluation #6
 @Entity
 @Table(name = "doctor")
 @Getter
@@ -42,11 +41,11 @@ public class Doctor {
     @Column(name = "address")
     private String address;
 
-    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) // Evaluation 9
     @JsonIgnore
     private List<AvailableDate> dateList;
 
-    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) // Evaluation 9
     @JsonIgnore
     private List<Appointment> appointmentList;
 }

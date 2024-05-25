@@ -27,6 +27,7 @@ public class AnimalManager implements AnimalService {
         this.customerRepo = customerRepo;
     }
 
+    // Evaluation 12 - Create an animal entry
     @Override
     public Animal save(Animal animal) {
 
@@ -53,6 +54,7 @@ public class AnimalManager implements AnimalService {
 
     @Override
     public Animal get(Long id) {
+        // Evaluation 25 - Check if the animal exists. If not, throw an error.
         return this.animalRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_ANIMAL_ID));
     }
 
@@ -65,10 +67,10 @@ public class AnimalManager implements AnimalService {
     @Override
     public Animal update(Animal animal) {
 
-        // Checks if the animal exists
+        // Evaluation 25 - Checks if the animal exists. If not, throw an error.
         animalRepo.findById(animal.getId()).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_ANIMAL_ID));
 
-        // Checks if the customer exists
+        // Evaluation 25 - Checks if the customer exists. If not, throw an error.
         if (customerRepo.findById(animal.getCustomer().getId()).isEmpty()) {
             throw new NotFoundException(Msg.NO_SUCH_CUSTOMER);
         }
@@ -79,6 +81,7 @@ public class AnimalManager implements AnimalService {
 
     @Override
     public boolean delete(Long id) {
+        //Evaluation 25 - Check if the animal exists. If not, throw an error.
         this.animalRepo.delete(this.get(id));
         return true;
     }
@@ -91,6 +94,7 @@ public class AnimalManager implements AnimalService {
         return animalRepo.getAnimalByCustomerName(name);
     }
 
+    // Evaluation 13 - Filter animals by name
     @Override
     public List<Animal> getAnimalByName(String name) {
         if (animalRepo.getAnimalByName(name).isEmpty()) {
