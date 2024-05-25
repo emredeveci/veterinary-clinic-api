@@ -32,7 +32,7 @@ enhances scalability. The main layers of the architecture include:
 
 - CRUD operations for all entities: customer, animal, doctor, vaccine, appointment, available date.
 - Several endpoints with various functionalities such as:
-    - Filtering appointments by date and doctor,or by date and animal
+    - Filtering appointments by date and doctor, or by date and animal
     - Filtering vaccines that an animal has received
     - Filtering expiring vaccines within a specified date range
 
