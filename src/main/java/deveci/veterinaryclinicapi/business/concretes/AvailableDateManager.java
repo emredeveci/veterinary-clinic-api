@@ -8,14 +8,12 @@ import deveci.veterinaryclinicapi.core.utilities.Msg;
 import deveci.veterinaryclinicapi.dao.AppointmentRepo;
 import deveci.veterinaryclinicapi.dao.AvailableDateRepo;
 import deveci.veterinaryclinicapi.dao.DoctorRepo;
-import deveci.veterinaryclinicapi.entities.Appointment;
 import deveci.veterinaryclinicapi.entities.AvailableDate;
+import deveci.veterinaryclinicapi.entities.Doctor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 
 @Service
 public class AvailableDateManager implements AvailableDateService {
@@ -33,12 +31,13 @@ public class AvailableDateManager implements AvailableDateService {
     // Evaluation 16 - Create an available date entry for a doctor
     @Override
     public AvailableDate save(AvailableDate availableDate) {
-        if (doctorRepo.findById(availableDate.getDoctor().getId()).isEmpty()) {
-            throw new NotFoundException(Msg.NO_SUCH_DOCTOR_ID);
-        }
+        Doctor doctor = this.doctorRepo.findById(availableDate.getDoctor().getId()).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_DOCTOR_ID));
+
         if (availableDateRepo.existsByAvailableDateAndDoctorId(availableDate.getAvailableDate(), availableDate.getDoctor().getId())) {
             throw new ExistingRecordsException(Msg.AVAILABLE_DATE_EXISTS);
         }
+
+        availableDate.setDoctor(doctor);
         return this.availableDateRepo.save(availableDate);
     }
 

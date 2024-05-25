@@ -35,7 +35,7 @@ public class AppointmentManager implements AppointmentService {
     @Override
     public Appointment save(Appointment appointment) {
 
-        this.animalRepo.findById(appointment.getAnimal().getId()).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_ANIMAL_ID));
+        Animal animal = this.animalRepo.findById(appointment.getAnimal().getId()).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_ANIMAL_ID));
 
         Doctor doctor = this.doctorRepo.findById(appointment.getDoctor().getId()).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_DOCTOR_ID));
 
@@ -56,6 +56,8 @@ public class AppointmentManager implements AppointmentService {
             throw new DateException(Msg.HOURLY_APPOINTMENTS);
         }
 
+        appointment.setAnimal(animal);
+        appointment.setDoctor(doctor);
         return appointmentRepo.save(appointment);
     }
 

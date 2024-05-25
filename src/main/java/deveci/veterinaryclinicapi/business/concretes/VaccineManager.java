@@ -6,6 +6,7 @@ import deveci.veterinaryclinicapi.core.exception.NotFoundException;
 import deveci.veterinaryclinicapi.core.utilities.Msg;
 import deveci.veterinaryclinicapi.dao.AnimalRepo;
 import deveci.veterinaryclinicapi.dao.VaccineRepo;
+import deveci.veterinaryclinicapi.entities.Animal;
 import deveci.veterinaryclinicapi.entities.Vaccine;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VaccineManager implements VaccineService {
@@ -31,9 +31,8 @@ public class VaccineManager implements VaccineService {
     // Evaluation 21 - Make a vaccine entry with a certain business logic
     @Override
     public Vaccine save(Vaccine vaccine) {
-        if (animalRepo.findById(vaccine.getAnimal().getId()).isEmpty()) {
-            throw new NotFoundException(Msg.NO_SUCH_ANIMAL_ID);
-        }
+
+        Animal animal = animalRepo.findById(vaccine.getAnimal().getId()).orElseThrow(() -> new NotFoundException(Msg.NO_SUCH_ANIMAL_ID));
 
         boolean existsVaccine = vaccineRepo.existsVaccineByCodeAndNameAndAnimalId(
                 vaccine.getCode(), vaccine.getName(), vaccine.getAnimal().getId());
@@ -60,6 +59,7 @@ public class VaccineManager implements VaccineService {
             }
         }
 
+        vaccine.setAnimal(animal);
         return vaccineRepo.save(vaccine);
     }
 
@@ -86,7 +86,7 @@ public class VaccineManager implements VaccineService {
         // Checks if the vaccine already exists for the given animal
         if (vaccineRepo.existsVaccineByCodeAndNameAndAnimalId(vaccine.getCode(), vaccine.getName(), vaccine.getAnimal().getId())) {
             // Checks if there are any vaccines with a protection end date after the current vaccine's protection start date
-            if (vaccineRepo.findByProtectionEndDateAfterOrderByProtectionEndDate(vaccine.getProtectionStartDate()).isEmpty()) {
+            if (vaccineRepo.findByAnimalIdAndProtectionEndDateAfterOrderByProtectionEndDate(vaccine.getAnimal().getId(), vaccine.getProtectionStartDate()).isEmpty()) {
                 // Checks if the protection start date is after the protection end date
                 if (ChronoUnit.DAYS.between(vaccine.getProtectionStartDate(), vaccine.getProtectionEndDate()) < 0) {
                     throw new DateException(Msg.END_DATE_ISSUE);
