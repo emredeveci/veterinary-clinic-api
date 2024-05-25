@@ -42,56 +42,56 @@ enhances scalability. The main layers of the architecture include:
 
 ## API Reference
 
-| Endpoint                                    | HTTP Method | Description                                                           |
-|---------------------------------------------|:------------|-----------------------------------------------------------------------|
-| **customers**                               |             |
-| `/v1/customers/{id}`                        | GET         | Retrieves the details of a customer by their ID                       |
-| `/v1/customers`                             | PUT         | Updates the details of a customer                                     |
-| `/v1/customers/{id}`                        | DELETE      | Removes a customer by their ID                                        |
-| `/v1/customers`                             | GET         | Retrieves all customers                                               |
-| `/v1/customers`                             | POST        | Adds a new customer                                                   |
-| `/v1/customers/by-name`                     | GET         | Retrieves a customer by their name                                    |
-| `/v1/customers/{id}/animal-list`            | GET         | Retrieves all animals that belong to a customer by their id           |
-|                                             |             |                                                                       |
-| **animals**                                 |             |                                                                       |
-| `/v1/animals/{id}`                          | GET         | Retrieves the details of animal by their ID                           |
-| `/v1/animals`                               | PUT         | Updates the details of an animal                                      |
-| `/v1/animals/{id}`                          | DELETE      | Deletes an animal by their ID                                         |
-| `/v1/animals`                               | GET         | Retrieves all animals                                                 |
-| `/v1/animals`                               | POST        | Adds a new animal                                                     |
-| `/v1/animals/by-name`                       | GET         | Retrieves animals by their name                                       |
-| `/v1/animals/by-customer-name`              | GET         | Retrieves all animals that belong to a customer by their name         |
-| `/v1/animals/by-customer-id/{id}`           | GET         | Retrieves all animals that belong to a customer by their ID           |
-|                                             |             |                                                                       |                                                                                    |
-| **vaccines**                                |             |                                                                       |
-| `/v1/vaccines/{id}`                         | GET         | Retrieves the details of a vaccine by its ID                          |
-| `/v1/vaccines`                              | PUT         | Updates a vaccine                                                     |
-| `/v1/vaccines/{id}`                         | DELETE      | Deletes a vaccine by its ID                                           |
-| `/v1/vaccines`                              | GET         | Retrieves all vaccines                                                |
-| `/v1/vaccines`                              | POST        | Adds a new vaccine                                                    |
-| `/v1/vaccines/protection-check`             | GET         | Retrieves vaccines expiring within the requested date range           |
-| `/v1/vaccines/animal/{id}`                  | GET         | Retrieves the vaccines received by an animal by its ID                |
-|                                             |             |                                                                       |
-| **doctors**                                 |             |                                                                       |
-| `/v1/doctors/{id}`                          | GET         | Retrieves the details of a doctor by their ID                         |
-| `/v1/doctors`                               | PUT         | Updates the details of a doctor                                       |
-| `/v1/doctors/{id}`                          | DELETE      | Deletes a doctor by their ID                                          |
-| `/v1/doctors`                               | GET         | Retrieves all doctors                                                 |
-| `/v1/doctors`                               | POST        | Adds a new doctor                                                     |
-|                                             |             |                                                                       |
-| **available_dates**                         |             |                                                                       |
-| `/v1/available_dates/{id}`                  | GET         | Retrieves the details of an available date by its ID                  |
-| `/v1/available_dates`                       | PUT         | Updates the details of an available date                              |
-| `/v1/available_dates/{id}`                  | DELETE      | Removes an available date by its ID                                   |
-| `/v1/available_dates`                       | GET         | Retrieves all available dates                                         |
-| `/v1/available_dates`                       | POST        | Adds a new available date                                             |
-|                                             |             |                                                                       |
-| **appointments**                            |             |                                                                       |
-| `/v1/appointments/{id}`                     | GET         | Retrieves the details of an appointment by its ID                     |
-| `/v1/appointments`                          | PUT         | Updates the details of an appointment                                 |
-| `/v1/appointments/{id}`                     | DELETE      | Deletes an appointment by its ID                                      |
-| `/v1/appointments`                          | GET         | Retrieves all the appointments                                        |
-| `/v1/appointments`                          | POST        | Adds a new appointment                                                |
+| Endpoint                               | HTTP Method | Description                                                           |
+|----------------------------------------|:------------|-----------------------------------------------------------------------|
+| **customers**                          |             |
+| `/v1/customers/{id}`                   | GET         | Retrieves the details of a customer by their ID                       |
+| `/v1/customers`                        | PUT         | Updates the details of a customer                                     |
+| `/v1/customers/{id}`                   | DELETE      | Removes a customer by their ID                                        |
+| `/v1/customers`                        | GET         | Retrieves all customers                                               |
+| `/v1/customers`                        | POST        | Adds a new customer                                                   |
+| `/v1/customers/by-name`                | GET         | Retrieves a customer by their name                                    |
+| `/v1/customers/{id}/animal-list`       | GET         | Retrieves all animals that belong to a customer by their id           |
+|                                        |             |                                                                       |
+| **animals**                            |             |                                                                       |
+| `/v1/animals/{id}`                     | GET         | Retrieves the details of animal by their ID                           |
+| `/v1/animals`                          | PUT         | Updates the details of an animal                                      |
+| `/v1/animals/{id}`                     | DELETE      | Deletes an animal by their ID                                         |
+| `/v1/animals`                          | GET         | Retrieves all animals                                                 |
+| `/v1/animals`                          | POST        | Adds a new animal                                                     |
+| `/v1/animals/by-name`                  | GET         | Retrieves animals by their name                                       |
+| `/v1/animals/by-customer-name`         | GET         | Retrieves all animals that belong to a customer by their name         |
+| `/v1/animals/by-customer-id/{id}`      | GET         | Retrieves all animals that belong to a customer by their ID           |
+|                                        |             |                                                                       |                                                                                    |
+| **vaccines**                           |             |                                                                       |
+| `/v1/vaccines/{id}`                    | GET         | Retrieves the details of a vaccine by its ID                          |
+| `/v1/vaccines`                         | PUT         | Updates a vaccine                                                     |
+| `/v1/vaccines/{id}`                    | DELETE      | Deletes a vaccine by its ID                                           |
+| `/v1/vaccines`                         | GET         | Retrieves all vaccines                                                |
+| `/v1/vaccines`                         | POST        | Adds a new vaccine                                                    |
+| `/v1/vaccines/protection-check`        | GET         | Retrieves vaccines expiring within the requested date range           |
+| `/v1/vaccines/animal/{id}`             | GET         | Retrieves the vaccines received by an animal by its ID                |
+|                                        |             |                                                                       |
+| **doctors**                            |             |                                                                       |
+| `/v1/doctors/{id}`                     | GET         | Retrieves the details of a doctor by their ID                         |
+| `/v1/doctors`                          | PUT         | Updates the details of a doctor                                       |
+| `/v1/doctors/{id}`                     | DELETE      | Deletes a doctor by their ID                                          |
+| `/v1/doctors`                          | GET         | Retrieves all doctors                                                 |
+| `/v1/doctors`                          | POST        | Adds a new doctor                                                     |
+|                                        |             |                                                                       |
+| **available_dates**                    |             |                                                                       |
+| `/v1/availabledates/{id}`              | GET         | Retrieves the details of an available date by its ID                  |
+| `/v1/availabledates`                   | PUT         | Updates the details of an available date                              |
+| `/v1/availabledates/{id}`              | DELETE      | Removes an available date by its ID                                   |
+| `/v1/availabledates`                   | GET         | Retrieves all available dates                                         |
+| `/v1/availabledates`                   | POST        | Adds a new available date                                             |
+|                                        |             |                                                                       |
+| **appointments**                       |             |                                                                       |
+| `/v1/appointments/{id}`                | GET         | Retrieves the details of an appointment by its ID                     |
+| `/v1/appointments`                     | PUT         | Updates the details of an appointment                                 |
+| `/v1/appointments/{id}`                | DELETE      | Deletes an appointment by its ID                                      |
+| `/v1/appointments`                     | GET         | Retrieves all the appointments                                        |
+| `/v1/appointments`                     | POST        | Adds a new appointment                                                |
 | `/v1/appointments/date-doctor-availability` | GET         | Retrieves all appointments of a doctor within a specified date range  |
 | `/v1/appointments/appointment-dates-animal` | GET         | Retrieves all appointments of an animal within a specified date range |
 
