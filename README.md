@@ -1,6 +1,8 @@
 # Veterinary Clinic REST API
 
-This project is a RESTful API for managing a veterinary clinic, allowing operations on customers, animals, appointments, doctors, vaccines, and available dates.
+This project is a RESTful API for managing a veterinary clinic, allowing operations on customers, animals, appointments,
+doctors, vaccines, and available dates.
+
 ## Tech
 
 - Java 22
@@ -13,25 +15,33 @@ This project is a RESTful API for managing a veterinary clinic, allowing operati
 
 ## Architecture
 
-This RESTful API is designed using a layered architecture that separates concerns, improves maintainability, and enhances scalability. The main layers of the architecture include:
+This RESTful API is designed using a layered architecture that separates concerns, improves maintainability, and
+enhances scalability. The main layers of the architecture include:
 
 1. **Presentation Layer (API Layer)**: Handles HTTP requests and responses, and exposes the RESTful API endpoints.
-2. **Service Layer**: Contains the business logic of the application. This layer processes input from the Presentation Layer, applies business rules, and coordinates responses.
-3. **Data Access Layer (Repository Layer)**: Manages database interactions. This layer is responsible for CRUD operations and querying the database.
-4. **Model Layer**: Contains the domain entities that represent the data model of the application. These entities are used throughout the other layers.
-5. **DTO Layer (Data Transfer Object Layer)**: Used to transfer data between the layers, especially between the Presentation Layer and Service Layer. DTOs help in decoupling the internal data structures from the API.
+2. **Service Layer**: Contains the business logic of the application. This layer processes input from the Presentation
+   Layer, applies business rules, and coordinates responses.
+3. **Data Access Layer (Repository Layer)**: Manages database interactions. This layer is responsible for CRUD
+   operations and querying the database.
+4. **Model Layer**: Contains the domain entities that represent the data model of the application. These entities are
+   used throughout the other layers.
+5. **DTO Layer (Data Transfer Object Layer)**: Used to transfer data between the layers, especially between the
+   Presentation Layer and Service Layer. DTOs help in decoupling the internal data structures from the API.
 
 ## Core Features
+
 - CRUD operations for all entities: customer, animal, doctor, vaccine, appointment, available date.
-- Several endpoints with various functionalities such as: 
+- Several endpoints with various functionalities such as:
     - Filtering appointments by date and doctor,or by date and animal
     - Filtering vaccines that an animal has received
     - Filtering expiring vaccines within a specified date range
 
 ## UML Diagram
+
 ![uml_diagram](/images/uml_diagram.png)
 
 ## API Reference
+
 | Endpoint                                    | HTTP Method | Description                                                           |
 |---------------------------------------------|:------------|-----------------------------------------------------------------------|
 | **customers**                               |             |
@@ -96,10 +106,10 @@ This RESTful API is designed using a layered architecture that separates concern
 - Run the application:
     - `mvn spring-boot:run`
 - You can utilize Swagger and test the API endpoints through this URL: http://localhost:8080/swagger-ui/index.html#/
+
 ## Authors
 
 - [@emredeveci](https://github.com/emredeveci)
-
 
 ## License
 

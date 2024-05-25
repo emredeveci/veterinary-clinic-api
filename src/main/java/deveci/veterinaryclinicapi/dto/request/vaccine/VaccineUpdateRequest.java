@@ -25,10 +25,10 @@ public class VaccineUpdateRequest {
     @NotEmpty(message = "Code cannot be empty or null.")
     private String code;
 
-    @NotEmpty(message = "Protection start date cannot be empty or null.")
+    @NotNull(message = "Protection start date cannot be empty or null.")
     private LocalDate protectionStartDate;
 
-    @NotEmpty(message = "Protection end date cannot be empty or null.")
+    @NotNull(message = "Protection end date cannot be empty or null.")
     private LocalDate protectionEndDate;
 
     @NotNull(message = "Animal ID cannot be empty or null.")

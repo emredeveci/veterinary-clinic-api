@@ -48,6 +48,7 @@ public class AnimalManager implements AnimalService {
             throw new ExistingRecordsException(Msg.DUPLICATE_ANIMAL);
         }
 
+        animal.setCustomer(customer);
         // Save the new animal
         return this.animalRepo.save(animal);
     }
