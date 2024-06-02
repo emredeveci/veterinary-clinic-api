@@ -1,4 +1,4 @@
-package deveci.veterinaryclinicapi.business.abstracts;
+package deveci.veterinaryclinicapi.service.abstracts;
 
 import deveci.veterinaryclinicapi.entities.Animal;
 import deveci.veterinaryclinicapi.entities.Customer;

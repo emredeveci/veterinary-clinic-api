@@ -1,6 +1,6 @@
-package deveci.veterinaryclinicapi.business.concretes;
+package deveci.veterinaryclinicapi.service.concretes;
 
-import deveci.veterinaryclinicapi.business.abstracts.AnimalService;
+import deveci.veterinaryclinicapi.service.abstracts.AnimalService;
 import deveci.veterinaryclinicapi.core.exception.ExistingRecordsException;
 import deveci.veterinaryclinicapi.core.exception.NotFoundException;
 import deveci.veterinaryclinicapi.core.utilities.Msg;
@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AnimalManager implements AnimalService {
+public class AnimalServiceImpl implements AnimalService {
 
     private final AnimalRepo animalRepo;
     private final CustomerRepo customerRepo;
 
-    public AnimalManager(AnimalRepo animalRepo, CustomerRepo customerRepo) {
+    public AnimalServiceImpl(AnimalRepo animalRepo, CustomerRepo customerRepo) {
         this.animalRepo = animalRepo;
         this.customerRepo = customerRepo;
     }

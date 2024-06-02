@@ -1,6 +1,6 @@
-package deveci.veterinaryclinicapi.business.concretes;
+package deveci.veterinaryclinicapi.service.concretes;
 
-import deveci.veterinaryclinicapi.business.abstracts.CustomerService;
+import deveci.veterinaryclinicapi.service.abstracts.CustomerService;
 import deveci.veterinaryclinicapi.core.exception.ExistingRecordsException;
 import deveci.veterinaryclinicapi.core.exception.NotFoundException;
 import deveci.veterinaryclinicapi.core.utilities.Msg;
@@ -16,11 +16,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CustomerManager implements CustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepo customerRepo;
 
-    public CustomerManager(CustomerRepo customerRepo) {
+    public CustomerServiceImpl(CustomerRepo customerRepo) {
         this.customerRepo = customerRepo;
     }
 

@@ -1,6 +1,6 @@
-package deveci.veterinaryclinicapi.business.concretes;
+package deveci.veterinaryclinicapi.service.concretes;
 
-import deveci.veterinaryclinicapi.business.abstracts.DoctorService;
+import deveci.veterinaryclinicapi.service.abstracts.DoctorService;
 import deveci.veterinaryclinicapi.core.exception.ExistingRecordsException;
 import deveci.veterinaryclinicapi.core.exception.NotFoundException;
 import deveci.veterinaryclinicapi.core.utilities.Msg;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class DoctorManager implements DoctorService {
+public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepo doctorRepo;
 
-    public DoctorManager(DoctorRepo doctorRepo) {
+    public DoctorServiceImpl(DoctorRepo doctorRepo) {
         this.doctorRepo = doctorRepo;
     }
 

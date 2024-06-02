@@ -1,6 +1,6 @@
-package deveci.veterinaryclinicapi.business.concretes;
+package deveci.veterinaryclinicapi.service.concretes;
 
-import deveci.veterinaryclinicapi.business.abstracts.VaccineService;
+import deveci.veterinaryclinicapi.service.abstracts.VaccineService;
 import deveci.veterinaryclinicapi.core.exception.DateException;
 import deveci.veterinaryclinicapi.core.exception.NotFoundException;
 import deveci.veterinaryclinicapi.core.utilities.Msg;
@@ -18,12 +18,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
-public class VaccineManager implements VaccineService {
+public class VaccineServiceImpl implements VaccineService {
 
     private final VaccineRepo vaccineRepo;
     private final AnimalRepo animalRepo;
 
-    public VaccineManager(VaccineRepo vaccineRepo, AnimalRepo animalRepo) {
+    public VaccineServiceImpl(VaccineRepo vaccineRepo, AnimalRepo animalRepo) {
         this.vaccineRepo = vaccineRepo;
         this.animalRepo = animalRepo;
     }

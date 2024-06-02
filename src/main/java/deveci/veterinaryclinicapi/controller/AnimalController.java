@@ -1,8 +1,7 @@
-package deveci.veterinaryclinicapi.api;
+package deveci.veterinaryclinicapi.controller;
 
 
-import deveci.veterinaryclinicapi.business.abstracts.AnimalService;
-import deveci.veterinaryclinicapi.business.abstracts.CustomerService;
+import deveci.veterinaryclinicapi.service.abstracts.AnimalService;
 import deveci.veterinaryclinicapi.core.config.modelMapper.ModelMapperService;
 import deveci.veterinaryclinicapi.core.result.Result;
 import deveci.veterinaryclinicapi.core.result.ResultData;
@@ -12,7 +11,6 @@ import deveci.veterinaryclinicapi.dto.request.animal.AnimalUpdateRequest;
 import deveci.veterinaryclinicapi.dto.response.CursorResponse;
 import deveci.veterinaryclinicapi.dto.response.animal.AnimalResponse;
 import deveci.veterinaryclinicapi.entities.Animal;
-import deveci.veterinaryclinicapi.entities.Customer;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
-package deveci.veterinaryclinicapi.api;
+package deveci.veterinaryclinicapi.controller;
 
-import deveci.veterinaryclinicapi.business.abstracts.DoctorService;
+import deveci.veterinaryclinicapi.service.abstracts.DoctorService;
 import deveci.veterinaryclinicapi.core.config.modelMapper.ModelMapperService;
 import deveci.veterinaryclinicapi.core.result.Result;
 import deveci.veterinaryclinicapi.core.result.ResultData;

@@ -1,6 +1,6 @@
-package deveci.veterinaryclinicapi.business.concretes;
+package deveci.veterinaryclinicapi.service.concretes;
 
-import deveci.veterinaryclinicapi.business.abstracts.AppointmentService;
+import deveci.veterinaryclinicapi.service.abstracts.AppointmentService;
 import deveci.veterinaryclinicapi.core.exception.DateException;
 import deveci.veterinaryclinicapi.core.exception.NotFoundException;
 import deveci.veterinaryclinicapi.core.utilities.Msg;
@@ -19,13 +19,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class AppointmentManager implements AppointmentService {
+public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentRepo appointmentRepo;
     private final DoctorRepo doctorRepo;
     private final AnimalRepo animalRepo;
 
-    public AppointmentManager(AppointmentRepo appointmentRepo, DoctorRepo doctorRepo, AnimalRepo animalRepo) {
+    public AppointmentServiceImpl(AppointmentRepo appointmentRepo, DoctorRepo doctorRepo, AnimalRepo animalRepo) {
         this.appointmentRepo = appointmentRepo;
         this.doctorRepo = doctorRepo;
         this.animalRepo = animalRepo;

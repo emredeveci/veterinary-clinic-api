@@ -1,7 +1,6 @@
-package deveci.veterinaryclinicapi.api;
+package deveci.veterinaryclinicapi.controller;
 
-import deveci.veterinaryclinicapi.business.abstracts.AvailableDateService;
-import deveci.veterinaryclinicapi.business.abstracts.DoctorService;
+import deveci.veterinaryclinicapi.service.abstracts.AvailableDateService;
 import deveci.veterinaryclinicapi.core.config.modelMapper.ModelMapperService;
 import deveci.veterinaryclinicapi.core.result.Result;
 import deveci.veterinaryclinicapi.core.result.ResultData;
@@ -11,7 +10,6 @@ import deveci.veterinaryclinicapi.dto.request.availabledate.AvailableDateUpdateR
 import deveci.veterinaryclinicapi.dto.response.CursorResponse;
 import deveci.veterinaryclinicapi.dto.response.availabledate.AvailableDateResponse;
 import deveci.veterinaryclinicapi.entities.AvailableDate;
-import deveci.veterinaryclinicapi.entities.Doctor;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

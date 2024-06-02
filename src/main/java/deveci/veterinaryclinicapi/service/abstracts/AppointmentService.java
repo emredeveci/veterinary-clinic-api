@@ -1,8 +1,6 @@
-package deveci.veterinaryclinicapi.business.abstracts;
+package deveci.veterinaryclinicapi.service.abstracts;
 
-import deveci.veterinaryclinicapi.entities.Animal;
 import deveci.veterinaryclinicapi.entities.Appointment;
-import deveci.veterinaryclinicapi.entities.Doctor;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;

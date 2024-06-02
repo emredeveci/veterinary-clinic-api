@@ -1,6 +1,6 @@
-package deveci.veterinaryclinicapi.business.concretes;
+package deveci.veterinaryclinicapi.service.concretes;
 
-import deveci.veterinaryclinicapi.business.abstracts.AvailableDateService;
+import deveci.veterinaryclinicapi.service.abstracts.AvailableDateService;
 import deveci.veterinaryclinicapi.core.exception.DateException;
 import deveci.veterinaryclinicapi.core.exception.ExistingRecordsException;
 import deveci.veterinaryclinicapi.core.exception.NotFoundException;
@@ -16,13 +16,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AvailableDateManager implements AvailableDateService {
+public class AvailableDateServiceImpl implements AvailableDateService {
 
     private final AvailableDateRepo availableDateRepo;
     private final DoctorRepo doctorRepo;
     private final AppointmentRepo appointmentRepo;
 
-    public AvailableDateManager(AvailableDateRepo availableDateRepo, DoctorRepo doctorRepo, AppointmentRepo appointmentRepo) {
+    public AvailableDateServiceImpl(AvailableDateRepo availableDateRepo, DoctorRepo doctorRepo, AppointmentRepo appointmentRepo) {
         this.availableDateRepo = availableDateRepo;
         this.doctorRepo = doctorRepo;
         this.appointmentRepo = appointmentRepo;
